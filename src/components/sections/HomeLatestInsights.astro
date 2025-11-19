@@ -5,8 +5,11 @@ import { formatDate } from "@utils/utils";
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
-// Get the 3 most recent blog posts
+// Get the 3 most recent blog posts without 'case study' tag
 const posts = (await getCollection("blog"))
+  .filter((post) =>
+    !post.data.tags.some((tag) => tag.toLowerCase() === "case study"),
+  )
   .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
