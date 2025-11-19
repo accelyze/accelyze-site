@@ -1,0 +1,144 @@
+---
+import { withBase } from "@utils/paths";
+
+const formAction = "https://formsubmit.co/dd461712f74d90d2bafd8eedacdc7e80";
+const thankYouUrl = new URL(withBase("/thanks"), Astro.site).href;
+
+const formStrings = {
+  name: "Name",
+  email: "Email",
+  goal: "What are you trying to achieve with AI?",
+  stage: "Current stage",
+  timeline: "Timeline and urgency",
+  submit: "Schedule a discovery call",
+};
+
+const stageOptions = ["Idea", "Pilot", "In production"];
+---
+
+<form
+  class="space-y-5"
+  action={formAction}
+  method="POST"
+  aria-labelledby="form-title"
+>
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value={thankYouUrl} />
+  <fieldset class="space-y-5">
+    <legend id="form-title" class="sr-only">{formStrings.submit}</legend>
+
+    <div>
+      <label
+        for="input-name"
+        class="block text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {formStrings.name}
+      </label>
+      <input
+        type="text"
+        id="input-name"
+        name="name"
+        class="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        placeholder="Jane Doe"
+        autocomplete="name"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div>
+      <label
+        for="input-email"
+        class="block text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {formStrings.email}
+      </label>
+      <input
+        type="email"
+        id="input-email"
+        name="email"
+        class="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        placeholder="you@company.com"
+        autocomplete="email"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div>
+      <label
+        for="input-goal"
+        class="block text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {formStrings.goal}
+      </label>
+      <textarea
+        id="input-goal"
+        name="goal"
+        class="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        rows="4"
+        placeholder="e.g., Reduce clinical documentation time or automate underwriting reviews."
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label
+        for="input-stage"
+        class="block text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {formStrings.stage}
+      </label>
+      <div class="relative mt-2">
+        <select
+          id="input-stage"
+          name="stage"
+          class="w-full appearance-none rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          required
+        >
+          <option value="" disabled selected hidden>
+            Select a stage
+          </option>
+          {stageOptions.map((stage) => (
+            <option value={stage.toLowerCase()}>{stage}</option>
+          ))}
+        </select>
+        <svg
+          class="pointer-events-none absolute inset-y-0 end-3 my-auto size-4 text-slate-500 dark:text-slate-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m6 9 6 6 6-6" />
+        </svg>
+      </div>
+    </div>
+
+    <div>
+      <label
+        for="input-timeline"
+        class="block text-sm font-semibold text-slate-600 dark:text-slate-300"
+      >
+        {formStrings.timeline}
+      </label>
+      <input
+        type="text"
+        id="input-timeline"
+        name="timeline"
+        class="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        placeholder="e.g., Need a production launch within 4 months."
+      />
+    </div>
+  </fieldset>
+
+  <div class="pt-2">
+    <button
+      type="submit"
+      class="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      aria-label={formStrings.submit}
+    >
+      {formStrings.submit}
+    </button>
+  </div>
+</form>

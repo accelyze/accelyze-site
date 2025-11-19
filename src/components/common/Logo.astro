@@ -1,0 +1,29 @@
+---
+import { withBase } from "@utils/paths";
+
+export interface Props {
+  alt?: string;
+  className?: string;
+}
+
+const { alt = "Accelyze", className = "" } = Astro.props;
+const lightLogo = withBase("/accelyze.svg");
+const darkLogo = withBase("/accelyze-dark.svg");
+---
+
+<span class={`inline-flex items-center ${className}`}>
+  <img
+    src={lightLogo}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class="h-12 w-auto dark:hidden"
+  />
+  <img
+    src={darkLogo}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class="hidden h-12 w-auto dark:inline"
+  />
+</span>

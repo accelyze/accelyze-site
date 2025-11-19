@@ -1,0 +1,123 @@
+---
+import BaseLayout from "@layout/BaseLayout.astro";
+import type { WithContext, Thing } from "schema-dts";
+import { withBase } from "@utils/paths";
+
+const hero = {
+  title: "Platform & MLOps Enablement",
+  subtitle:
+    "Shared services, evaluation harnesses, and tooling that help internal teams ship AI faster and safer.",
+};
+
+const sections = [
+  {
+    title: "Reference architecture",
+    description:
+      "We design platform blueprints that align with your cloud provider, security posture, and data governance policies. Each blueprint covers retrieval, orchestration, evaluation, logging, and safety layers—plus the interfaces teams need to use them.",
+  },
+  {
+    title: "Core services & libraries",
+    description:
+      "We implement reusable services for prompt and retrieval patterns, Bedrock/OpenAI gateways, evaluation pipelines, and structured logging. Developers access them through SDKs and templates that make the right thing the easy thing.",
+  },
+  {
+    title: "Integration with DevOps",
+    description:
+      "Platform components plug into your CI/CD pipelines, infrastructure-as-code repos, and observability stack. We ensure AI projects inherit the same rigor as other software initiatives.",
+  },
+];
+
+const enablement = [
+  "Playbooks explaining how and when to use each component",
+  "Workshops with engineering, platform, and risk teams",
+  "Shadowing and co-building so internal teams can evolve the platform",
+];
+
+const cta = {
+  text: "Plan a platform working session",
+  link: "/contact",
+};
+
+const seo = {
+  title: "Platform & MLOps Enablement | Accelyze",
+  description:
+    "Accelyze builds AI platform layers and MLOps tooling so enterprise teams can ship use cases repeatedly.",
+};
+
+const schema: WithContext<Thing> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  inLanguage: "en-US",
+  "@id": Astro.url.href,
+  url: Astro.url.href,
+  name: "Platform & MLOps Enablement",
+  description: seo.description,
+  isPartOf: {
+    "@type": "WebSite",
+    url: `${Astro.site}`,
+    name: "Accelyze",
+    description:
+      "Accelyze helps enterprises design, build, and operate AI systems that make it into production.",
+  },
+};
+---
+
+<BaseLayout seo={seo} schema={schema}>
+  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+        Approach
+      </p>
+      <h1 class="mt-4 text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+        {hero.title}
+      </h1>
+      <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
+        {hero.subtitle}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="grid gap-6 md:grid-cols-3">
+      {sections.map((section) => (
+        <article class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-white">{section.title}</h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            {section.description}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-24 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Capability transfer</h2>
+      <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
+        We ensure internal teams can own the platform long term.
+      </p>
+      <ul class="mt-6 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+        {enablement.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+        Need a AI platform teams actually adopt?
+      </h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        Let’s map your current stack, identify the highest-value shared services, and co-build the foundation together.
+      </p>
+      <a
+        href={withBase(cta.link)}
+        class="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      >
+        {cta.text}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,75 @@
+---
+import { withBase } from "@utils/paths";
+
+const reasons = [
+  {
+    title: "We only take projects that can ship",
+    description:
+      "Our first conversation is often about what not to build. If there isn’t a viable path to production and value, we will say so.",
+  },
+  {
+    title: "Hands-on leaders from day one",
+    description:
+      "Your project is led by practitioners who have shipped large-scale AI systems at Amazon and Google, not by a rotating bench of generalists.",
+  },
+  {
+    title: "Opinionated about MLOps and safety",
+    description:
+      "We bring a clear point of view on architecture, evaluation, and risk management. This speeds up decisions and reduces rework.",
+  },
+  {
+    title: "Focused on regulated and complex domains",
+    description:
+      "Healthcare, finance, and services have real constraints. We design AI systems that respect regulation, privacy, and controls.",
+  },
+];
+---
+
+<section class="bg-off-white py-16 dark:bg-slate-950 sm:py-24">
+  <div class="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">
+        Why Accelyze
+      </p>
+      <h2 class="mt-4 text-3xl font-semibold text-slate-900 sm:text-4xl dark:text-white">
+        Why choose Accelyze for your AI production journey
+      </h2>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+        There are many firms that can write prompts or run workshops. There are fewer that will stand behind a production deployment. Accelyze was created to close that gap.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {reasons.map((reason) => (
+        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-white">
+            {reason.title}
+          </h3>
+          <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
+            {reason.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <a
+        href={withBase("/services")}
+        class="inline-flex items-center text-base font-semibold text-indigo-700 transition hover:text-indigo-500 dark:text-indigo-300"
+      >
+        Explore our services
+        <svg
+          class="ms-2 size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

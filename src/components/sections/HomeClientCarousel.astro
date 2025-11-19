@@ -1,0 +1,151 @@
+---
+import { getCollection } from "astro:content";
+import { withBase } from "@utils/paths";
+
+const recentPosts = (await getCollection("blog"))
+  .filter((post) =>
+    post.data.tags.some((tag) => tag.toLowerCase() === "case study"),
+  )
+  .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const logoModules = import.meta.glob(
+  "../../assets/images/blog/*.{svg,png}",
+  { eager: true },
+) as Record<string, { default: any } | string>;
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const getLogoSrc = (client?: string | null) => {
+  if (!client) return null;
+  const slug = slugify(client);
+  const moduleExport =
+    logoModules[`../../assets/images/blog/${slug}.svg`] ??
+    logoModules[`../../assets/images/blog/${slug}.png`];
+
+  if (!moduleExport) return null;
+
+  if (typeof moduleExport === "string") return moduleExport;
+  if (
+    typeof moduleExport === "object" &&
+    moduleExport !== null &&
+    "default" in moduleExport
+  ) {
+    const mod = moduleExport.default;
+    if (typeof mod === "string") return mod;
+    if (typeof mod === "object" && mod !== null && "src" in mod) {
+      return (mod as { src: string }).src;
+    }
+    if (typeof mod === "function" && "src" in mod) {
+      return (mod as { src: string }).src;
+    }
+  }
+
+  return null;
+};
+
+const slides = recentPosts.map((post) => {
+  const slug =
+    "slug" in post ? (post as typeof post & { slug: string }).slug : post.id;
+  const clientName = post.data.client ?? post.data.title;
+  const logoSrc = getLogoSrc(post.data.client ?? null);
+  const initials = clientName
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0]?.toUpperCase() ?? "")
+    .join("")
+    .slice(0, 2);
+
+  return {
+    slug,
+    client: clientName,
+    description: post.data.title,
+    logoSrc,
+    initials: initials || "AI",
+    href:
+      post.data.tags.some((tag) => tag.toLowerCase() === "case study")
+        ? withBase(`/case-studies/${slug}`)
+        : withBase(`/blog/${slug}`),
+    ctaLabel: post.data.tags.some((tag) => tag.toLowerCase() === "case study")
+      ? "Read case study"
+      : "Read article",
+  };
+});
+
+---
+
+<section class="bg-white py-16 dark:bg-slate-950 sm:py-24">
+  <div class="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">
+        Client Spotlight
+      </p>
+      <h2 class="mt-4 text-3xl font-semibold text-slate-900 sm:text-4xl dark:text-white">
+        Trusted by teams who need AI to work in production
+      </h2>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+        Accelyze works with leaders in healthcare, finance, and services who are under pressure to move fast without breaking things. Our clients invite us in when they are past the hype and ready to ship.
+      </p>
+    </div>
+
+    {
+      slides.length === 0 ? (
+        <div class="mt-12 rounded-2xl border border-dashed border-slate-200 bg-white/70 p-10 text-center text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
+          No stories yet. Publishing a blog post will populate this section automatically.
+        </div>
+      ) : (
+        <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {slides.map((client) => (
+            <a
+              href={client.href}
+              class="group flex h-full flex-col rounded-3xl border border-slate-200 bg-slate-50/60 p-6 shadow-sm transition duration-300 hover:border-indigo-200 hover:bg-white hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-indigo-500/40 dark:hover:bg-slate-900"
+            >
+              {
+                client.logoSrc ? (
+                  <img
+                    src={client.logoSrc}
+                    alt={`${client.client} logo`}
+                    class="h-12 w-auto self-start"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-indigo-600 shadow-sm dark:bg-slate-800 dark:text-indigo-300 self-start">
+                    {client.initials}
+                  </div>
+                )
+              }
+              <div class="mt-5">
+                <h3 class="text-2xl font-semibold text-slate-900 transition duration-300 group-hover:text-indigo-700 dark:text-white">
+                  {client.client}
+                </h3>
+                <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
+                  {client.description}
+                </p>
+              </div>
+              <span class="mt-8 inline-flex items-center text-sm font-semibold text-indigo-700 group-hover:gap-2 dark:text-indigo-300">
+                {client.ctaLabel}
+                <svg
+                  class="ms-1 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,116 @@
+---
+import BaseLayout from "@layout/BaseLayout.astro";
+import type { WithContext, Thing } from "schema-dts";
+import { withBase } from "@utils/paths";
+
+const service = {
+  title: "MLOps & AI Platform Enablement",
+  subtitle:
+    "Establish the platform layer, tooling, and standards that let every AI project ship faster and safer.",
+  problem:
+    "Without a strong MLOps foundation, each new AI project becomes a one-off effort with bespoke evaluation, logging, and safety controls.",
+  whatWeDo: [
+    "Design the AI platform architecture that fits your cloud, security, and compliance requirements",
+    "Implement shared services for retrieval, evaluation, logging, prompt/pipeline management, and safety controls",
+    "Integrate the platform with CI/CD, infrastructure-as-code, and observability tooling your teams already use",
+  ],
+  deliverables: [
+    "Reference architectures and platform playbook tailored to your environment",
+    "Core platform services, SDKs, and templates for AI projects",
+    "Evaluation, logging, and monitoring blueprints that every team can adopt",
+  ],
+  timeline: "Typical engagement: 8-12 weeks",
+};
+
+const cta = {
+  text: "Discuss your platform roadmap",
+  link: "/contact",
+};
+
+const seo = {
+  title: "MLOps & AI Platform Enablement | Accelyze",
+  description:
+    "Accelyze helps enterprises build a AI platform layer with shared services, evaluation, and safety controls so teams can ship with confidence.",
+};
+
+const schema: WithContext<Thing> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  inLanguage: "en-US",
+  "@id": Astro.url.href,
+  url: Astro.url.href,
+  name: service.title,
+  description: seo.description,
+  isPartOf: {
+    "@type": "WebSite",
+    url: `${Astro.site}`,
+    name: "Accelyze",
+    description:
+      "Accelyze helps enterprises design, build, and operate AI systems that make it into production.",
+  },
+};
+---
+
+<BaseLayout seo={seo} schema={schema}>
+  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+        Services
+      </p>
+      <h1 class="mt-4 text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+        {service.title}
+      </h1>
+      <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
+        {service.subtitle}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-xl  font-semibold text-slate-900 dark:text-white">The challenge</h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        {service.problem}
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-8 lg:grid-cols-2">
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">What we do</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+          {service.whatWeDo.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Deliverables</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+          {service.deliverables.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+          {service.timeline}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+        Want a platform layer your teams actually use?
+      </h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        We’ll design and build the shared services, templates, and policies that keep AI projects consistent and compliant.
+      </p>
+      <a
+        href={withBase(cta.link)}
+        class="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      >
+        {cta.text}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

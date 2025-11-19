@@ -1,0 +1,159 @@
+---
+import Approach from "@megaMenu/Approach.astro";
+import Services from "@megaMenu/Services.astro";
+import Button from "@ui/Button.astro";
+import Logo from "@common/Logo.astro";
+import ThemeToggle from "@common/ThemeToggle.astro";
+import { withBase, stripBase } from "@utils/paths";
+
+const currentPath = stripBase(Astro.url.pathname);
+
+// Call-to-action configuration for the primary button
+const primaryCTA = { text: "Contact", href: withBase("/contact") };
+const homeHref = withBase("/");
+const blogHref = withBase("/blog");
+const caseStudiesHref = withBase("/case-studies");
+const aboutHref = withBase("/about");
+---
+
+<header
+  class="fixed start-1/2 top-5 z-50 mx-auto flex w-full max-w-sm -translate-x-1/2 transform flex-wrap rounded-2xl border border-slate-200/70 bg-slate-100/70 p-4 shadow-xs backdrop-blur md:max-w-4xl md:flex-nowrap md:justify-start lg:max-w-5xl xl:max-w-6xl xl:border-slate-200/30 xl:bg-slate-100/70 xl:shadow-none xl:ring-amber-300/30 dark:border-slate-700/40 dark:bg-slate-900/70 dark:shadow-lg sm:max-w-xl 2xl:max-w-[81rem]"
+>
+  <nav
+    class="relative mx-auto w-full px-4 py-1 sm:px-6 lg:px-8 xl:flex xl:max-w-7xl xl:items-center xl:justify-between xl:gap-3 2xl:max-w-[85rem]"
+  >
+    <div class="flex items-center justify-between gap-x-3">
+      <a href={homeHref} class="inline-flex items-center leading-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400" aria-label="Accelyze home">
+        <Logo />
+      </a>
+
+      <div class="flex items-center gap-x-2 xl:hidden">
+        <ThemeToggle />
+        <button
+          type="button"
+          class="hs-collapse-toggle relative flex size-9 items-center justify-center rounded-lg border border-slate-200 text-[12px] font-medium text-slate-800 hover:bg-slate-100 focus:bg-slate-100 focus:outline-hidden dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+          id="hs-header-base-collapse"
+          aria-expanded="false"
+          aria-controls="hs-header-base"
+          aria-label="Toggle navigation"
+          data-hs-collapse="#hs-header-base"
+        >
+          <svg
+            class="size-4 hs-collapse-open:hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><line x1="3" x2="21" y1="6" y2="6"></line><line
+              x1="3"
+              x2="21"
+              y1="12"
+              y2="12"></line><line x1="3" x2="21" y1="18" y2="18"></line></svg
+          >
+          <svg
+            class="hidden size-4 shrink-0 hs-collapse-open:block"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+          >
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="hs-header-base"
+      class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 xl:ml-12 xl:block 2xl:ml-20"
+      aria-labelledby="hs-header-base-collapse"
+    >
+      <div
+        class="max-h-[75vh] overflow-hidden overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100 [&::-webkit-scrollbar]:w-2"
+      >
+        <div
+          class="flex flex-col gap-0.5 py-2 xl:flex-row xl:items-center xl:gap-1 xl:py-0"
+        >
+          <div class="grow">
+            <div
+              class="flex flex-col gap-0.5 xl:flex-row xl:items-center xl:justify-end xl:gap-8"
+            >
+              <Services />
+
+              <Approach />
+
+              <a
+                href={caseStudiesHref}
+                class={`flex items-center rounded-lg p-2 font-medium text-slate-800 hover:bg-slate-100 focus:bg-slate-100 focus:outline-hidden dark:text-slate-200 dark:hover:bg-slate-800 ${
+                  currentPath.startsWith("/case-studies")
+                    ? "underline underline-offset-4 text-amber-600 dark:text-amber-400"
+                    : ""
+                }`}
+                aria-current={
+                  currentPath.startsWith("/case-studies") ? "page" : undefined
+                }
+              >
+                Case Studies
+              </a>
+
+              <a
+                href={blogHref}
+                class={`flex items-center rounded-lg p-2 font-medium text-slate-800 hover:bg-slate-100 focus:bg-slate-100 focus:outline-hidden dark:text-slate-200 dark:hover:bg-slate-800 ${
+                  currentPath.startsWith("/blog")
+                    ? "underline underline-offset-4 text-amber-600 dark:text-amber-400"
+                    : ""
+                }`}
+                aria-current={
+                  currentPath.startsWith("/blog") ? "page" : undefined
+                }
+              >
+                Blog
+              </a>
+
+              <a
+                href={aboutHref}
+                class={`flex items-center rounded-lg p-2 font-medium text-slate-800 hover:bg-slate-100 focus:bg-slate-100 focus:outline-hidden dark:text-slate-200 dark:hover:bg-slate-800 ${
+                  currentPath === "/about"
+                    ? "underline underline-offset-4 text-amber-600 dark:text-amber-400"
+                    : ""
+                }`}
+                aria-current={currentPath === "/about" ? "page" : undefined}
+              >
+                About
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center gap-x-3 xl:ml-6 xl:mt-0">
+            <div class="hidden xl:block">
+              <ThemeToggle />
+            </div>
+            <Button
+              href={primaryCTA.href}
+              variant="primary"
+              className="inline-flex text-nowrap border-none py-2!"
+              >{primaryCTA.text}</Button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  document.addEventListener("astro:page-load", async () => {
+    const preline = await import("preline/preline.js");
+    preline.HSStaticMethods.autoInit();
+  });
+</script>

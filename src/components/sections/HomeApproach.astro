@@ -1,0 +1,66 @@
+---
+import Button from "@ui/Button.astro";
+import { withBase } from "@utils/paths";
+
+const steps = [
+  {
+    title: "Define the value and constraints",
+    description:
+      "Align on the business problem, value hypothesis, success metrics, and constraints such as compliance, latency, and integration boundaries.",
+  },
+  {
+    title: "Design the solution, not just the model",
+    description:
+      "Architect the full experience: user journey, model and retrieval strategy, data pipelines, security posture, and human-in-the-loop workflows.",
+  },
+  {
+    title: "Build and harden for production",
+    description:
+      "Implement the solution with production-grade engineering. Add monitoring, evaluation harnesses, safety controls, and automated tests.",
+  },
+  {
+    title: "Launch, measure, improve",
+    description:
+      "Deploy to a real production environment, instrument value metrics, and run a structured improvement loop across prompts, retrieval, and product flows.",
+  },
+];
+---
+
+<section class="bg-white py-16 dark:bg-slate-950 sm:py-24">
+  <div class="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
+    <div class="lg:flex lg:items-center lg:justify-between">
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">
+          Methodology
+        </p>
+        <h2 class="mt-4 text-3xl font-semibold text-slate-900 sm:text-4xl dark:text-white">
+          Our approach to shipping AI solutions
+        </h2>
+        <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+          AI projects fail for the same reasons again and again: unclear problem definition, weak data foundations, no production owner, and lack of a deployment runway. Accelyze uses a simple but rigorous method that keeps projects honest.
+        </p>
+      </div>
+      <div class="mt-6 shrink-0 lg:mt-0">
+        <Button href={withBase("/approach")} className="text-base">
+          View our approach
+        </Button>
+      </div>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {steps.map((step, index) => (
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-6 shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 dark:border-slate-800 dark:bg-slate-900/70">
+          <span class="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
+            Step {index + 1}
+          </span>
+          <h3 class="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+            {step.title}
+          </h3>
+          <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

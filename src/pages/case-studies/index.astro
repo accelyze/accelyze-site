@@ -1,0 +1,148 @@
+---
+import BaseLayout from "@layout/BaseLayout.astro";
+
+import { getCollection } from "astro:content";
+import { withBase } from "@utils/paths";
+
+const posts = (await getCollection("blog"))
+  .filter((post) =>
+    post.data.tags.some((tag) => tag.toLowerCase() === "case study"),
+  )
+  .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const logoModules = import.meta.glob(
+  "../../assets/images/blog/*.{svg,png,jpg,jpeg,webp,avif}",
+  { eager: true },
+) as Record<string, { default: any } | string>;
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const getLogo = (client?: string | null) => {
+  if (!client) return null;
+  const slug = slugify(client);
+  const exts = ["svg", "png", "jpg", "jpeg", "webp", "avif"];
+  for (const ext of exts) {
+    const match = logoModules[`../../assets/images/blog/${slug}.${ext}`];
+    if (match) {
+      const value = match;
+      if (typeof value === "string") return value;
+      if (value && typeof value === "object" && "default" in value) {
+        const mod = value.default;
+        if (typeof mod === "string") return mod;
+        if (mod && typeof mod === "object" && "src" in mod) {
+          return (mod as { src: string }).src;
+        }
+        if (typeof mod === "function" && "src" in mod) {
+          return (mod as { src: string }).src;
+        }
+      }
+    }
+  }
+  return null;
+};
+
+export const pageContent = {
+  pageTitle: "AI Projects in Production",
+  subTitle: "A sample of how Accelyze has helped clients move from experiment to impact.",
+  actionLabel: "Dive Deeper",
+};
+---
+
+<BaseLayout>
+  <section class="mx-auto max-w-340 px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+    <div class="max-w-7xl">
+      <div class="mx-auto max-w-3xl lg:mx-0">
+        <h1
+          class="text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl"
+        >
+          {pageContent.pageTitle}
+        </h1>
+        <p class="mt-6 text-lg text-slate-600">
+          {pageContent.subTitle}
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="mx-auto max-w-340 px-4 py-10 sm:px-6 md:py-10 lg:px-8 lg:py-10">
+    {
+      posts.length === 0 ? (
+        <div class="rounded-2xl border border-dashed border-slate-200 bg-white/70 p-10 text-center text-slate-500">
+          No case studies to show yet. Check back soon!
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {
+            posts.map((item) => {
+              const slug =
+                "slug" in item
+                  ? (item as typeof item & { slug: string }).slug
+                  : item.id;
+              const logo = getLogo(item.data.client);
+              const clampStyle = (lines: number) =>
+                `display:-webkit-box;-webkit-line-clamp:${lines};-webkit-box-orient:vertical;overflow:hidden;`;
+
+              return (
+                <a
+                  class="group"
+                  href={withBase(`/case-studies/${slug}`)}
+                  aria-label={`Read ${item.data.title}`}
+                >
+                  <article
+                class="flex h-full flex-col rounded-2xl border border-slate-200 bg-white/85 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/80"
+              >
+                {
+                  logo ? (
+                    <img
+                      src={logo}
+                          alt={item.data.client ?? item.data.title}
+                          class="h-10 w-auto self-start"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+                          {item.data.client ?? "Case Study"}
+                        </div>
+                      )
+                    }
+                    <p class="mt-4 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      {item.data.client ?? "Client Story"}
+                    </p>
+                    <h3
+                      class="mt-2 text-xl font-semibold text-slate-900 transition duration-300 group-hover:text-indigo-700 dark:text-white"
+                      style={clampStyle(2)}
+                    >
+                      {item.data.title}
+                    </h3>
+                    <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300" style={clampStyle(4)}>
+                      {item.data.description}
+                    </p>
+                    <span class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                      {pageContent.actionLabel}
+                      <svg
+                        class="size-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </span>
+                  </article>
+                </a>
+              );
+            })
+          }
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

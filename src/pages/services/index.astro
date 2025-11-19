@@ -1,0 +1,233 @@
+---
+import BaseLayout from "@layout/BaseLayout.astro";
+import type { WithContext, Thing } from "schema-dts";
+import { withBase } from "@utils/paths";
+
+const hero = {
+  title: "Services built around AI that ships",
+  subtitle:
+    "We focus on the stretch from prototype to production and beyond. Each service is designed to move you closer to a real deployment with measurable value.",
+};
+
+const services = [
+  {
+    title: "AI Strategy & Readiness",
+    slug: "/services/genai-strategy-and-readiness",
+    description:
+      "Find the right use cases, align stakeholders, and build a roadmap that balances quick wins with foundational work.",
+    problem:
+      "Many enterprises have pockets of experimentation but no clear path to a production roadmap.",
+    whatWeDo: [
+      "Identify the highest-value AI use cases across your business",
+      "Assess data readiness, architecture, and MLOps maturity",
+      "Define a 6–18 month roadmap that balances quick wins and foundational work",
+    ],
+    deliverables: [
+      "Use case portfolio with value and feasibility scoring",
+      "Target architecture for AI across your stack",
+      "Roadmap with recommended first-wave projects and investment levels",
+    ],
+    timeline: "Typical engagement: 4–6 weeks",
+  },
+  {
+    title: "Pilot to Production Delivery",
+    slug: "/services/pilot-to-production-delivery",
+    description:
+      "Turn a working prototype into a hardened AI system with integrations, monitoring, and runbooks.",
+    problem:
+      "Teams can build a demo but struggle with integration, reliability, and stakeholder alignment.",
+    whatWeDo: [
+      "Refine the problem and value hypothesis",
+      "Design the end-to-end solution and architecture",
+      "Implement, integrate, and harden for production",
+      "Support launch and early lifecycle",
+    ],
+    deliverables: [
+      "Detailed solution design and architecture documents",
+      "Production AI application deployed in your environment",
+      "Monitoring, evaluation, and safety controls in place",
+      "Runbooks and handover to internal teams",
+    ],
+    timeline: "Typical engagement: 12–20 weeks",
+  },
+  {
+    title: "MLOps & AI Platform Enablement",
+    slug: "/services/mlops-and-genai-platform-enablement",
+    description:
+      "Standardize evaluation, logging, and safety controls so every AI project doesn’t start from zero.",
+    problem:
+      "Without a strong MLOps foundation, each new AI project becomes a one-off effort.",
+    whatWeDo: [
+      "Design and implement a AI platform layer on top of your cloud or internal stack",
+      "Standardize evaluation, prompt and retrieval patterns, logging, and safety controls",
+      "Integrate with CI/CD and infrastructure-as-code practices",
+    ],
+    deliverables: [
+      "Reference architectures and platform playbook",
+      "Core platform services and libraries for AI projects",
+      "Templates and tooling for logging, evaluation, and monitoring",
+    ],
+    timeline: "Typical engagement: 10–16 weeks",
+  },
+  {
+    title: "AI Risk, Evaluation & Governance",
+    slug: "/services/ai-risk-evaluation-and-governance",
+    description:
+      "Calibrate risk appetite, design evaluation frameworks, and operationalize guardrails for AI systems.",
+    problem:
+      "Leaders are excited about AI but concerned about hallucinations, bias, privacy, and regulation.",
+    whatWeDo: [
+      "Design evaluation frameworks that match your risk posture",
+      "Implement offline and online evaluation, including human review where needed",
+      "Advise on policies, guardrails, and governance workflows",
+    ],
+    deliverables: [
+      "Risk and evaluation framework tailored to your use cases",
+      "Evaluation harness integrated into your pipelines",
+      "Governance and incident response guidelines",
+    ],
+    timeline: "Typical engagement: 6–10 weeks",
+  },
+];
+
+const cta = {
+  title: "Need a AI partner that ships?",
+  description:
+    "Tell us about your use case, current stage, and success metrics. We’ll share an honest view on feasibility and a plan for getting to production.",
+  button: {
+    text: "Schedule a discovery call",
+    link: "/contact",
+  },
+};
+
+const seo = {
+  title: "Accelyze Services",
+  description:
+    "AI strategy, delivery, platform enablement, and risk services built by leaders from Amazon and Google to get AI into production.",
+};
+
+const schema: WithContext<Thing> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  inLanguage: "en-US",
+  "@id": Astro.url.href,
+  url: Astro.url.href,
+  name: "Accelyze Services",
+  description: seo.description,
+  isPartOf: {
+    "@type": "WebSite",
+    url: `${Astro.site}`,
+    name: "Accelyze",
+    description:
+      "Accelyze helps enterprises design, build, and operate AI systems that make it into production.",
+  },
+};
+---
+
+<BaseLayout seo={seo} schema={schema}>
+  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <h1 class="text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+        {hero.title}
+      </h1>
+      <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
+        {hero.subtitle}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-20 sm:px-6 lg:px-8">
+    <div class="space-y-6 text-base text-slate-600 dark:text-slate-300">
+      <p class="text-pretty">
+        We exist to bridge the last mile of enterprise AI—the part where prototypes meet
+        integrations, governance, and value metrics. Each service below is a focused play
+        that addresses a specific failure pattern we have seen inside large organizations.
+      </p>
+      <p class="text-pretty">
+        Wherever you are on the journey—prioritizing use cases, hardening a pilot,
+        building a platform layer, or operationalizing AI risk—we measure success by
+        systems that ship and stay live.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+      {services.map((service) => (
+        <article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg shadow-indigo-200/40 transition hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900/80">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+                {service.timeline}
+              </p>
+              <h2 class="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                {service.title}
+              </h2>
+            </div>
+            <a
+              href={withBase(service.slug)}
+              class="text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
+            >
+              Learn more →
+            </a>
+          </div>
+          <p class="mt-4 text-sm text-slate-600 dark:text-slate-300">
+            {service.description}
+          </p>
+          <div class="mt-6 space-y-4 text-sm text-slate-600 dark:text-slate-300">
+            <div>
+              <p class="font-semibold text-slate-800 dark:text-slate-100">Problem we solve</p>
+              <p class="mt-1">{service.problem}</p>
+            </div>
+            <div>
+              <p class="font-semibold text-slate-800 dark:text-slate-100">What we do</p>
+              <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
+                {service.whatWeDo.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p class="font-semibold text-slate-800 dark:text-slate-100">Key deliverables</p>
+              <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
+                {service.deliverables.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div class="mt-auto pt-6">
+            <a
+              href={withBase(service.slug)}
+              class="inline-flex items-center text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
+            >
+              Explore this service
+              <svg
+                class="ms-1 size-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">{cta.title}</h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">{cta.description}</p>
+      <a
+        href={withBase(cta.button.link)}
+        class="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      >
+        {cta.button.text}
+      </a>
+    </div>
+  </section>
+</BaseLayout>
