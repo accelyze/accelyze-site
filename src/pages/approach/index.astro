@@ -6,7 +6,7 @@ import type { WithContext, Thing } from "schema-dts";
 const hero = {
   title: "Our approach to shipping AI",
   subtitle:
-    "Accelyze was built by leaders who have taken AI from prototypes to systems used by millions. Our method focuses on the messy middle—alignment, architecture, integration, and operations.",
+    "Accelyze was built by leaders who have taken AI from prototypes to systems used by millions. Our method focuses on the messy middle, alignment, architecture, integration, and operations.",
 };
 
 const method = [
@@ -23,7 +23,7 @@ const method = [
   {
     title: "Deliver",
     description:
-      "Ship working software on your infrastructure, integrate with your systems of record, and harden the solution with monitoring, evaluation, and incident playbooks. Every sprint produces tangible artifacts—not just slides.",
+      "Ship working software on your infrastructure, integrate with your systems of record, and harden the solution with monitoring, evaluation, and incident playbooks. Every sprint produces tangible artifacts, not just slides.",
   },
   {
     title: "Operate",
@@ -83,12 +83,16 @@ const schema: WithContext<Thing> = {
 ---
 
 <BaseLayout seo={seo} schema={schema}>
-  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[85rem] px-4 pt-48 pb-12 sm:px-6 lg:px-8">
     <div class="max-w-4xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+      <p
+        class="text-sm font-semibold tracking-[0.3em] text-indigo-600 uppercase dark:text-indigo-400"
+      >
         Approach
       </p>
-      <h1 class="mt-4 text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+      <h1
+        class="mt-4 text-4xl text-balance text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white"
+      >
         {hero.title}
       </h1>
       <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
@@ -99,51 +103,64 @@ const schema: WithContext<Thing> = {
 
   <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
     <div class="grid gap-6 md:grid-cols-2">
-      {method.map((step, index) => (
-        <article class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
-          <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
-            Step {index + 1}
-          </p>
-          <h2 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
-            {step.title}
-          </h2>
-          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            {step.description}
-          </p>
-        </article>
-      ))}
+      {
+        method.map((step, index) => (
+          <article class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+            <p class="text-xs font-semibold tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
+              Step {index + 1}
+            </p>
+            <h2 class="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
+              {step.title}
+            </h2>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              {step.description}
+            </p>
+          </article>
+        ))
+      }
     </div>
   </section>
 
   <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80"
+    >
       <div class="grid gap-6 md:grid-cols-3">
-        {highlights.map((item) => (
-          <div class="flex flex-col gap-3">
-            <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
-              Deep dive
-            </p>
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
-            <a
-              href={withBase(item.link)}
-              class="text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
-            >
-              Explore →
-            </a>
-          </div>
-        ))}
+        {
+          highlights.map((item) => (
+            <div class="flex flex-col gap-3">
+              <p class="text-xs font-semibold tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
+                Deep dive
+              </p>
+              <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                {item.title}
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-slate-300">
+                {item.description}
+              </p>
+              <a
+                href={withBase(item.link)}
+                class="text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
+              >
+                Explore →
+              </a>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80"
+    >
       <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
         Need a partner focused on production outcomes?
       </h2>
       <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
-        Tell us about your use case, stakeholders, and success metrics. We’ll confirm feasibility, risks, and a path to launch.
+        Tell us about your use case, stakeholders, and success metrics. We’ll
+        confirm feasibility, risks, and a path to launch.
       </p>
       <a
         href={withBase(cta.link)}

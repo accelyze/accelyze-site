@@ -4,18 +4,18 @@ import type { WithContext, Thing } from "schema-dts";
 
 const heroContent = {
   title: "Built by people who have shipped AI at scale",
-  subtitle:[
+  subtitle: [
     "Accelyze was founded by leaders from Amazon and Google who have delivered production AI systems across multiple industries.",
     "Accelyze started after watching one pattern repeat: enterprises investing heavily in AI pilots that never reached production. Our founders had been on the other side, building and operating AI systems that millions of people use every day at Amazon and Google.",
     "They saw that success depended less on clever models and more on unglamorous work: clean data, MLOps, integration, risk management, and a clear definition of value. Accelyze exists to bring that discipline to enterprise AI projects.",
-    ]
+  ],
 };
 
 const values = [
   {
     title: "Production or bust",
     description:
-      "Ideas and pilots don’t pay the bills. Every engagement starts with a value hypothesis, a production launch plan, and named owners for operations. We define the monitoring, rollback, and support model the same week we sketch the solution. If it can’t ship—or can’t stay live—we re-scope until it can.",
+      "Ideas and pilots don’t pay the bills. Every engagement starts with a value hypothesis, a production launch plan, and named owners for operations. We define the monitoring, rollback, and support model the same week we sketch the solution. If it can’t ship, or can’t stay live, we re-scope until it can.",
   },
   {
     title: "Straight talk",
@@ -37,59 +37,71 @@ const values = [
 // SEO metadata for the page
 const seo = {
   title: "About Accelyze",
-  description:
-    "Built by people who have shipped AI at scale.",
+  description: "Built by people who have shipped AI at scale.",
 };
 
 // Schema.org metadata for SEO
 const schema: WithContext<Thing> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "inLanguage": "en-US",
+  inLanguage: "en-US",
   "@id": Astro.url.href,
-  "url": Astro.url.href,
-  "name": "About Accelyze",
-  "description": "Get to know Accelyze, built by people who have shipped AI at scale.",
-  "isPartOf": {
+  url: Astro.url.href,
+  name: "About Accelyze",
+  description:
+    "Get to know Accelyze, built by people who have shipped AI at scale.",
+  isPartOf: {
     "@type": "WebSite",
-    "url": `${Astro.site}`,
-    "name": "Accelyze",
-    "description": "Accelyze exists to bring that discipline to enterprise AI projects."
-  }
+    url: `${Astro.site}`,
+    name: "Accelyze",
+    description:
+      "Accelyze exists to bring that discipline to enterprise AI projects.",
+  },
 };
 ---
 
 <BaseLayout seo={seo} schema={schema}>
-  <section class="mx-auto max-w-340 px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-340 px-4 pt-48 pb-12 sm:px-6 lg:px-8">
     <div class="max-w-4xl">
-      <h1 class="text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+      <h1
+        class="text-4xl text-balance text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white"
+      >
         {heroContent.title}
       </h1>
-      {heroContent.subtitle.map((paragraph) => (
-        <p class="mt-8 text-pretty text-lg font-medium text-slate-600 dark:text-slate-300">{paragraph}</p>
-      ))}      
+      {
+        heroContent.subtitle.map((paragraph) => (
+          <p class="mt-8 text-lg font-medium text-pretty text-slate-600 dark:text-slate-300">
+            {paragraph}
+          </p>
+        ))
+      }
     </div>
   </section>
 
   <section class="mx-auto max-w-340 px-4 py-10 sm:px-6 lg:px-8 lg:py-10">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/60 dark:border-slate-800 dark:bg-slate-900/80">
-      <h2 class="text-3xl font-semibold text-slate-800 dark:text-white">What we stand for</h2>
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/60 dark:border-slate-800 dark:bg-slate-900/80"
+    >
+      <h2 class="text-3xl font-semibold text-slate-800 dark:text-white">
+        What we stand for
+      </h2>
       <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
         Values that guide every delivery, every conversation, and every launch.
       </p>
       <div class="mt-10 grid gap-6 md:grid-cols-2">
-        {values.map((value) => (
-          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">
-            <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">
-              {value.title}
-            </h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              {value.description}
-            </p>
-          </div>
-        ))}
+        {
+          values.map((value) => (
+            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">
+              <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">
+                {value.title}
+              </h3>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                {value.description}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
-
 </BaseLayout>

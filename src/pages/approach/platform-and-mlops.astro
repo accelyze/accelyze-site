@@ -13,7 +13,7 @@ const sections = [
   {
     title: "Reference architecture",
     description:
-      "We design platform blueprints that align with your cloud provider, security posture, and data governance policies. Each blueprint covers retrieval, orchestration, evaluation, logging, and safety layers—plus the interfaces teams need to use them.",
+      "We design platform blueprints that align with your cloud provider, security posture, and data governance policies. Each blueprint covers retrieval, orchestration, evaluation, logging, and safety layers, plus the interfaces teams need to use them.",
   },
   {
     title: "Core services & libraries",
@@ -63,12 +63,16 @@ const schema: WithContext<Thing> = {
 ---
 
 <BaseLayout seo={seo} schema={schema}>
-  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[85rem] px-4 pt-48 pb-12 sm:px-6 lg:px-8">
     <div class="max-w-4xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+      <p
+        class="text-sm font-semibold tracking-[0.3em] text-indigo-600 uppercase dark:text-indigo-400"
+      >
         Approach
       </p>
-      <h1 class="mt-4 text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+      <h1
+        class="mt-4 text-4xl text-balance text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white"
+      >
         {hero.title}
       </h1>
       <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
@@ -79,38 +83,49 @@ const schema: WithContext<Thing> = {
 
   <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
     <div class="grid gap-6 md:grid-cols-3">
-      {sections.map((section) => (
-        <article class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
-          <h2 class="text-xl font-semibold text-slate-900 dark:text-white">{section.title}</h2>
-          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            {section.description}
-          </p>
-        </article>
-      ))}
+      {
+        sections.map((section) => (
+          <article class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-lg shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+            <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
+              {section.title}
+            </h2>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              {section.description}
+            </p>
+          </article>
+        ))
+      }
     </div>
   </section>
 
   <section class="mx-auto max-w-[85rem] px-4 pb-24 sm:px-6 lg:px-8">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
-      <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">Capability transfer</h2>
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80"
+    >
+      <h2 class="text-2xl font-semibold text-slate-900 dark:text-white">
+        Capability transfer
+      </h2>
       <p class="mt-3 text-base text-slate-600 dark:text-slate-300">
         We ensure internal teams can own the platform long term.
       </p>
-      <ul class="mt-6 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
-        {enablement.map((item) => (
-          <li>{item}</li>
-        ))}
+      <ul
+        class="mt-6 list-disc space-y-2 pl-5 text-base text-slate-600 marker:text-indigo-500 dark:text-slate-300"
+      >
+        {enablement.map((item) => <li>{item}</li>)}
       </ul>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80"
+    >
       <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
         Need a AI platform teams actually adopt?
       </h2>
       <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
-        Let’s map your current stack, identify the highest-value shared services, and co-build the foundation together.
+        Let’s map your current stack, identify the highest-value shared
+        services, and co-build the foundation together.
       </p>
       <a
         href={withBase(cta.link)}

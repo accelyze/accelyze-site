@@ -11,7 +11,8 @@ export const approachMenu = [
       {
         icon: "presentationChart",
         title: "Delivery Method",
-        description: "Discover, Design, Deliver, Operate—and the artifacts at every step.",
+        description:
+          "Discover, Design, Deliver, Operate, and the artifacts at every step.",
         href: "/approach/methodology",
       },
     ],
@@ -22,13 +23,15 @@ export const approachMenu = [
       {
         icon: "badge",
         title: "Regulated Industries",
-        description: "How we work with healthcare, finance, and the public sector.",
+        description:
+          "How we work with healthcare, finance, and the public sector.",
         href: "/approach/regulated-industries",
       },
       {
         icon: "dataBase",
         title: "Platform & MLOps Enablement",
-        description: "Shared services, evaluation, and tooling for GenAI teams.",
+        description:
+          "Shared services, evaluation, and tooling for GenAI teams.",
         href: "/approach/platform-and-mlops",
       },
     ],
