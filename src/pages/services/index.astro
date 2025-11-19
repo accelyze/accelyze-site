@@ -2,89 +2,89 @@
 import BaseLayout from "@layout/BaseLayout.astro";
 import type { WithContext, Thing } from "schema-dts";
 import { withBase } from "@utils/paths";
+import { getCollection } from "astro:content";
+import { formatDate } from "@utils/utils";
 
 const hero = {
-  title: "Services built around AI that ships",
+  title: "AI Services That Drive Business Results",
   subtitle:
-    "We focus on the stretch from prototype to production and beyond. Each service is designed to move you closer to a real deployment with measurable value.",
+    "We help you turn AI potential into measurable business outcomes. Every service is designed to solve real business problems and deliver tangible value to your bottom line.",
 };
 
 const services = [
   {
-    title: "AI Strategy & Readiness",
+    title: "AI Strategy & Business Impact",
     slug: "/services/genai-strategy-and-readiness",
     description:
-      "Find the right use cases, align stakeholders, and build a roadmap that balances quick wins with foundational work.",
+      "Identify AI opportunities that drive measurable business value and create a practical roadmap for rapid implementation.",
     problem:
-      "Many enterprises have pockets of experimentation but no clear path to a production roadmap.",
+      "Most companies waste time and money on AI projects that never deliver business results because they lack a clear strategy.",
     whatWeDo: [
-      "Identify the highest-value AI use cases across your business",
-      "Assess data readiness, architecture, and MLOps maturity",
-      "Define a 6–18 month roadmap that balances quick wins and foundational work",
+      "Discover high-ROI AI use cases aligned with your business goals",
+      "Build executive alignment and secure stakeholder buy-in",
+      "Create an actionable roadmap that delivers quick wins and long-term value",
     ],
     deliverables: [
-      "Use case portfolio with value and feasibility scoring",
-      "Target architecture for AI across your stack",
-      "Roadmap with recommended first-wave projects and investment levels",
+      "Business case for AI investment with clear ROI projections",
+      "Prioritized portfolio of AI initiatives with impact estimates",
+      "Implementation roadmap with timelines, resource needs, and success metrics",
     ],
     timeline: "Typical engagement: 4–6 weeks",
   },
   {
-    title: "Pilot to Production Delivery",
+    title: "AI Implementation & Value Delivery",
     slug: "/services/pilot-to-production-delivery",
     description:
-      "Turn a working prototype into a hardened AI system with integrations, monitoring, and runbooks.",
+      "Transform AI concepts into production systems that deliver measurable business outcomes and user adoption.",
     problem:
-      "Teams can build a demo but struggle with integration, reliability, and stakeholder alignment.",
+      "Great AI prototypes often fail in production because they don't solve real problems or integrate with business workflows.",
     whatWeDo: [
-      "Refine the problem and value hypothesis",
-      "Design the end-to-end solution and architecture",
-      "Implement, integrate, and harden for production",
-      "Support launch and early lifecycle",
+      "Validate AI solutions with real users and business scenarios",
+      "Build production-ready systems that integrate seamlessly with existing tools",
+      "Drive adoption and measure business impact throughout implementation",
     ],
     deliverables: [
-      "Detailed solution design and architecture documents",
-      "Production AI application deployed in your environment",
-      "Monitoring, evaluation, and safety controls in place",
-      "Runbooks and handover to internal teams",
+      "Production AI system deployed and integrated with your business processes",
+      "User training materials and change management plans",
+      "Performance dashboards showing business impact and ROI",
     ],
     timeline: "Typical engagement: 12–20 weeks",
   },
   {
-    title: "MLOps & AI Platform Enablement",
+    title: "Scalable AI Platform",
     slug: "/services/mlops-and-genai-platform-enablement",
     description:
-      "Standardize evaluation, logging, and safety controls so every AI project doesn’t start from zero.",
+      "Build a foundation that enables your entire organization to develop and deploy AI solutions efficiently and safely.",
     problem:
-      "Without a strong MLOps foundation, each new AI project becomes a one-off effort.",
+      "Without the right platform, every AI project becomes expensive, slow, and unreliable, killing innovation and ROI.",
     whatWeDo: [
-      "Design and implement a AI platform layer on top of your cloud or internal stack",
-      "Standardize evaluation, prompt and retrieval patterns, logging, and safety controls",
-      "Integrate with CI/CD and infrastructure-as-code practices",
+      "Design AI infrastructure that scales with your business needs",
+      "Create reusable components and best practices for rapid AI development",
+      "Establish governance and monitoring that ensures reliability and trust",
     ],
     deliverables: [
-      "Reference architectures and platform playbook",
-      "Core platform services and libraries for AI projects",
-      "Templates and tooling for logging, evaluation, and monitoring",
+      "Enterprise AI platform that reduces development time by 60-80%",
+      "Library of reusable AI components and templates",
+      "Automated testing, monitoring, and compliance workflows",
     ],
     timeline: "Typical engagement: 10–16 weeks",
   },
   {
-    title: "AI Risk, Evaluation & Governance",
+    title: "AI Trust & Governance",
     slug: "/services/ai-risk-evaluation-and-governance",
     description:
-      "Calibrate risk appetite, design evaluation frameworks, and operationalize guardrails for AI systems.",
+      "Build confidence in your AI systems with proper governance, risk management, and compliance frameworks.",
     problem:
-      "Leaders are excited about AI but concerned about hallucinations, bias, privacy, and regulation.",
+      "Leaders hesitate to deploy AI at scale due to concerns about reliability, fairness, security, and regulatory compliance.",
     whatWeDo: [
-      "Design evaluation frameworks that match your risk posture",
-      "Implement offline and online evaluation, including human review where needed",
-      "Advise on policies, guardrails, and governance workflows",
+      "Design AI systems that are transparent, fair, and accountable",
+      "Implement safeguards and monitoring to prevent AI failures",
+      "Create governance frameworks that satisfy regulators and build stakeholder trust",
     ],
     deliverables: [
-      "Risk and evaluation framework tailored to your use cases",
-      "Evaluation harness integrated into your pipelines",
-      "Governance and incident response guidelines",
+      "AI governance framework tailored to your industry and risk tolerance",
+      "Automated monitoring and alerting for AI performance and fairness",
+      "Compliance documentation and risk assessment procedures",
     ],
     timeline: "Typical engagement: 6–10 weeks",
   },
@@ -106,6 +106,11 @@ const seo = {
     "AI strategy, delivery, platform enablement, and risk services built by leaders from Amazon and Google to get AI into production.",
 };
 
+// Get recent blog posts for related content
+const recentPosts = (await getCollection("blog"))
+  .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
 const schema: WithContext<Thing> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
@@ -125,9 +130,11 @@ const schema: WithContext<Thing> = {
 ---
 
 <BaseLayout seo={seo} schema={schema}>
-  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+  <section class="mx-auto max-w-[85rem] px-4 pt-48 pb-12 sm:px-6 lg:px-8">
     <div class="max-w-4xl">
-      <h1 class="text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+      <h1
+        class="text-4xl text-balance text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white"
+      >
         {hero.title}
       </h1>
       <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
@@ -139,89 +146,192 @@ const schema: WithContext<Thing> = {
   <section class="mx-auto max-w-[85rem] px-4 pb-20 sm:px-6 lg:px-8">
     <div class="space-y-6 text-base text-slate-600 dark:text-slate-300">
       <p class="text-pretty">
-        We exist to bridge the last mile of enterprise AI—the part where prototypes meet
-        integrations, governance, and value metrics. Each service below is a focused play
-        that addresses a specific failure pattern we have seen inside large organizations.
+        We focus on what matters most: <strong
+          >delivering measurable business results</strong
+        > from AI investments. Our services are designed to solve the real challenges
+        that prevent AI projects from creating value.
       </p>
       <p class="text-pretty">
-        Wherever you are on the journey—prioritizing use cases, hardening a pilot,
-        building a platform layer, or operationalizing AI risk—we measure success by
-        systems that ship and stay live.
+        Whether you're just starting your AI journey or scaling existing
+        initiatives, we help you avoid common pitfalls and ensure every AI
+        project delivers tangible ROI for your business.
       </p>
     </div>
 
     <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
-      {services.map((service) => (
-        <article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg shadow-indigo-200/40 transition hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900/80">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">
-                {service.timeline}
-              </p>
-              <h2 class="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-                {service.title}
-              </h2>
-            </div>
-            <a
-              href={withBase(service.slug)}
-              class="text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
-            >
-              Learn more →
-            </a>
-          </div>
-          <p class="mt-4 text-sm text-slate-600 dark:text-slate-300">
-            {service.description}
-          </p>
-          <div class="mt-6 space-y-4 text-sm text-slate-600 dark:text-slate-300">
-            <div>
-              <p class="font-semibold text-slate-800 dark:text-slate-100">Problem we solve</p>
-              <p class="mt-1">{service.problem}</p>
-            </div>
-            <div>
-              <p class="font-semibold text-slate-800 dark:text-slate-100">What we do</p>
-              <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
-                {service.whatWeDo.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-slate-800 dark:text-slate-100">Key deliverables</p>
-              <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
-                {service.deliverables.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div class="mt-auto pt-6">
-            <a
-              href={withBase(service.slug)}
-              class="inline-flex items-center text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
-            >
-              Explore this service
-              <svg
-                class="ms-1 size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
+      {
+        services.map((service) => (
+          <article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg shadow-indigo-200/40 transition hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900/80">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-sm font-semibold tracking-wide text-indigo-600 uppercase">
+                  {service.timeline}
+                </p>
+                <h2 class="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                  {service.title}
+                </h2>
+              </div>
+              <a
+                href={withBase(service.slug)}
+                class="text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
               >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
+                Learn more →
+              </a>
+            </div>
+            <p class="mt-4 text-sm text-slate-600 dark:text-slate-300">
+              {service.description}
+            </p>
+            <div class="mt-6 space-y-4 text-sm text-slate-600 dark:text-slate-300">
+              <div>
+                <p class="font-semibold text-slate-800 dark:text-slate-100">
+                  Problem we solve
+                </p>
+                <p class="mt-1">{service.problem}</p>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800 dark:text-slate-100">
+                  What we do
+                </p>
+                <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
+                  {service.whatWeDo.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800 dark:text-slate-100">
+                  Key deliverables
+                </p>
+                <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-indigo-500">
+                  {service.deliverables.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div class="mt-auto pt-6">
+              <a
+                href={withBase(service.slug)}
+                class="inline-flex items-center text-sm font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400"
+              >
+                Explore this service
+                <svg
+                  class="ms-1 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Related AI Insights Section -->
+  <section class="mx-auto max-w-[85rem] px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl text-center">
+      <h2
+        class="text-3xl font-semibold text-slate-900 sm:text-4xl dark:text-white"
+      >
+        AI Implementation Insights
+      </h2>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+        Learn from our experience deploying AI systems in complex enterprise
+        environments.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-1 lg:grid-cols-3">
+      {
+        recentPosts.map((post) => {
+          const slug =
+            "slug" in post
+              ? (post as typeof post & { slug: string }).slug
+              : post.id;
+
+          return (
+            <a
+              class="group"
+              href={withBase(`/blog/${slug}`)}
+              aria-label={`Read ${post.data.title}`}
+            >
+              <article class="flex h-full flex-col rounded-2xl border border-slate-200 bg-white/85 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+                <div class="flex flex-wrap gap-2">
+                  {post.data.tags.map((tag) => (
+                    <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <h3 class="mt-4 text-xl font-semibold text-slate-900 transition duration-300 group-hover:text-indigo-700 dark:text-white">
+                  {post.data.title}
+                </h3>
+
+                <p class="mt-3 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  {post.data.description}
+                </p>
+
+                <div class="mt-auto pt-6">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                        {post.data.author}
+                      </p>
+                      <time
+                        datetime={post.data.date.toISOString()}
+                        class="text-xs text-slate-400 dark:text-slate-400"
+                      >
+                        {formatDate(post.data.date)}
+                      </time>
+                    </div>
+                  </div>
+                </div>
+              </article>
             </a>
-          </div>
-        </article>
-      ))}
+          );
+        })
+      }
+    </div>
+
+    <div class="mt-10 text-center">
+      <a
+        href={withBase("/blog")}
+        class="inline-flex items-center text-base font-semibold text-indigo-700 transition hover:text-indigo-500 dark:text-indigo-300"
+      >
+        Explore all AI insights
+        <svg
+          class="ms-2 size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
-    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
-      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">{cta.title}</h2>
-      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">{cta.description}</p>
+    <div
+      class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80"
+    >
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+        {cta.title}
+      </h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        {cta.description}
+      </p>
       <a
         href={withBase(cta.button.link)}
         class="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
@@ -231,3 +341,12 @@ const schema: WithContext<Thing> = {
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -3,17 +3,128 @@ import BaseLayout from "@layout/BaseLayout.astro";
 import HomeHero from "@sections/HomeHero.astro";
 import HomeClientCarousel from "@sections/HomeClientCarousel.astro";
 import HomeValueProps from "@sections/HomeValueProps.astro";
+import HomeTechnicalCapabilities from "@sections/HomeTechnicalCapabilities.astro";
+import HomeLatestInsights from "@sections/HomeLatestInsights.astro";
 import HomeApproach from "@sections/HomeApproach.astro";
 import HomeWhyChoose from "@sections/HomeWhyChoose.astro";
 import HomeCTASection from "@sections/HomeCTASection.astro";
+import type { WithContext, Thing } from "schema-dts";
+
+// Enhanced Schema.org data for AI consulting services
+const enhancedSchema: WithContext<Thing> = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": Astro.url.href,
+      url: Astro.url.href,
+      name: "Accelyze - Generative AI & Agentic Solutions Consulting",
+      description: "Enterprise AI consulting services specializing in Generative AI, agentic applications, and production-ready AI solutions. We help enterprises turn AI prototypes into scalable, secure systems.",
+      isPartOf: {
+        "@type": "WebSite",
+        url: `${Astro.site}`,
+        name: "Accelyze",
+        description: "Enterprise AI consulting for Generative AI and agentic applications"
+      },
+    },
+    {
+      "@type": "ProfessionalService",
+      name: "Accelyze",
+      description: "Enterprise AI consulting services specializing in Generative AI, agentic applications, and production-ready AI solutions",
+      url: `${Astro.site}`,
+      telephone: "+1-555-AI-SHIP",
+      areaServed: {
+        "@type": "Country",
+        name: "United States"
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "AI Consulting Services",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Generative AI Strategy & Implementation",
+              description: "Strategic consulting and implementation services for Generative AI solutions including LLM fine-tuning, RAG systems, and prompt engineering"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Agentic AI Development",
+              description: "Design and deployment of autonomous AI agents with tool use, planning capabilities, and multi-agent orchestration"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "MLOps & AI Infrastructure",
+              description: "Production-ready ML pipelines, model monitoring, automated retraining, and scalable inference infrastructure"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Organization",
+      name: "Accelyze",
+      description: "Enterprise AI consulting firm specializing in Generative AI and agentic applications",
+      url: `${Astro.site}`,
+      foundingDate: "2024",
+      knowsAbout: [
+        "Generative AI",
+        "Large Language Models",
+        "Agentic AI",
+        "MLOps",
+        "Enterprise AI",
+        "RAG Systems",
+        "AI Production Deployment"
+      ],
+      employee: [
+        {
+          "@type": "Person",
+          jobTitle: "AI Consultant",
+          knowsAbout: ["Amazon AI", "Google AI", "Enterprise AI Deployment", "MLOps"]
+        }
+      ]
+    }
+  ]
+};
 ---
 
-<BaseLayout>
+<BaseLayout schema={enhancedSchema} seo={{
+  title: "Accelyze - Generative AI & Agentic Solutions | Enterprise AI Consulting",
+  description: "Enterprise AI consulting services specializing in Generative AI, agentic applications, and production-ready AI solutions. We help enterprises deploy LLM-powered systems, RAG, and autonomous AI agents at scale.",
+  openGraph: {
+    basic: {
+      title: "Accelyze - Generative AI & Agentic Solutions Consulting",
+      type: "website",
+      image: `${Astro.site}social.png`,
+    },
+    optional: {
+      description: "Enterprise AI consulting services specializing in Generative AI, agentic applications, and production-ready AI solutions.",
+    },
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Accelyze - Generative AI & Agentic Solutions",
+    description: "Enterprise AI consulting services specializing in Generative AI, agentic applications, and production-ready AI solutions.",
+    image: `${Astro.site}social.png`,
+    imageAlt: "Accelyze - Generative AI & Agentic Solutions Consulting",
+  }
+}}>
   <HomeHero />
 
   <HomeClientCarousel />
 
   <HomeValueProps />
+
+  <HomeTechnicalCapabilities />
+
+  <HomeLatestInsights />
 
   <HomeApproach />
 
