@@ -41,4 +41,4 @@ Because if agents truly become first class collaborators, then making them secon
 
 What system are you designing: one built for humans with agents, or one built for humans plus agents?
 
-Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7394414938771025920-494y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABiRucB53-ACde3I_iphH8ZWph1YnQ_13s)
+Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7394414938771025920-494y/)

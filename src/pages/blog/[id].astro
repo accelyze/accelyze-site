@@ -45,7 +45,7 @@ const schema: WithContext<Thing> = {
   "url": Astro.url.href,
   "name": post.data.title,
   "description": post.data.description,
-  "datePublished": post.data.date.toLocaleDateString("en-UK"),
+  "datePublished": post.data.date.toLocaleDateString("en-US"),
   "isPartOf": {
     "@type": "WebSite",
     "url": `${Astro.site}`,

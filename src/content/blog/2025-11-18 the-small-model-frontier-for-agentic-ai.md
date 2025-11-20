@@ -40,4 +40,4 @@ If you disagree, you are probably betting that frontier creativity matters more 
 
 If we design agents with the opposite bet, "small" stops being a compromise and becomes an operating principle. The real frontier may not be who uses the biggest model, but who can deliver the most outcome with the least model per decision.
 
-Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7396610474106290177--KrZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABiRucB53-ACde3I_iphH8ZWph1YnQ_13s).
+Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7396610474106290177--KrZ/).

@@ -50,4 +50,4 @@ Pick one critical workflow, trace ten recent runs, and ask if the tools, retriev
 
 If the honest answer is no, has the model really drifted, or have your agents simply learned a different system than the one you think you are running?
 
-Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7394803806166958080-XgFR?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABiRucB53-ACde3I_iphH8ZWph1YnQ_13s).
+Continue the discussion [over on LinkedIn](https://www.linkedin.com/posts/activity-7394803806166958080-XgFR/).
