@@ -9,7 +9,7 @@ tags:
   - Robotics
 ---
 
-# When a drone decides what to do, not just how to fly, you are seeing the frontier of AI in the real world
+**When a drone decides what to do, not just how to fly, you are seeing the frontier of AI in the real world**
 
 A new survey focused on agentic UAVs (https://arxiv.org/html/2506.08045v1) shows we are no longer dealing with enhanced autopilots, but with **purpose driven, self reflective aerial agents** that integrate perception, memory, planning, and decision making into one continuous loop.
 
