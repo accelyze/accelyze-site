@@ -4,14 +4,14 @@ import Footer from "@sections/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import { SEO, type Props as SEOProps } from "astro-seo";
 import { Schema } from "astro-seo-schema";
-import type { WithContext, Thing } from "schema-dts";
+import type { Graph, WithContext, Thing } from "schema-dts";
 import { AstroFont } from "astro-font";
 import { withBase } from "@utils/paths";
 import "@styles/global.css";
 
 interface Props {
   seo?: SEOProps; // Optional SEO properties to customize meta tags
-  schema?: WithContext<Thing>; // Optional schema.org properties for structured data
+  schema?: Graph | WithContext<Thing>; // Optional schema.org properties for structured data
 }
 
 // Extract `seo` and `schema` from properties or define defaults
