@@ -8,10 +8,10 @@ import HomeLatestInsights from "@sections/HomeLatestInsights.astro";
 import HomeApproach from "@sections/HomeApproach.astro";
 import HomeWhyChoose from "@sections/HomeWhyChoose.astro";
 import HomeCTASection from "@sections/HomeCTASection.astro";
-import type { WithContext, Thing } from "schema-dts";
+import type { Graph } from "schema-dts";
 
 // Enhanced Schema.org data for AI consulting services
-const enhancedSchema: WithContext<Thing> = {
+const enhancedSchema: Graph = {
   "@context": "https://schema.org",
   "@graph": [
     {
