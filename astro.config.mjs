@@ -1,8 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@astrojs/react";
-import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 
 const SITE = process.env.SITE ?? "https://accelyze.ai";
@@ -18,7 +16,7 @@ export default defineConfig({
     clientPrerender: true,
   },
   output: "static",
-  integrations: [react(), svelte(), sitemap()],
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },
