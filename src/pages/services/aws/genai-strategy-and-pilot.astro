@@ -1,0 +1,191 @@
+---
+import BaseLayout from "@layout/BaseLayout.astro";
+import type { WithContext, Thing } from "schema-dts";
+import { withBase } from "@utils/paths";
+
+const service = {
+  title: "Accelyze Generative AI Strategy and Pilot on AWS",
+  subtitle:
+    "Move from generative AI ideas to a working pilot on AWS. In 4–6 weeks we identify high-value use cases, design an AWS-native architecture, and deliver a secure proof of concept in your account.",
+  problem:
+    "You’ve seen the potential of generative AI, but turning that potential into a concrete, safe, and maintainable solution inside your environment is where most organizations get stuck.",
+  whatWeDo: [
+    "Discovery and readiness: collaborate with business and technical stakeholders, map goals, data, and constraints, then prioritize 2–4 candidate use cases and select one anchor with clear success criteria.",
+    "Pilot design and build: use Amazon Bedrock, Amazon SageMaker, Amazon Kendra or Amazon OpenSearch Service, and core AWS services such as Amazon S3, AWS Lambda, and Amazon API Gateway to implement a secure pilot in your account with cost controls and observability.",
+    "Validation and roadmap: validate with real users, capture metrics, and deliver a reference architecture plus backlog to harden and scale to production, including guidance on data governance and model lifecycle management.",
+  ],
+  deliverables: [
+    "Prioritized use case slate with success criteria, user journeys, and acceptance tests",
+    "AWS-native pilot for the anchor use case deployed in your AWS account with security, logging, and cost guardrails",
+    "Reference architecture and roadmap to production, including governance, monitoring, and integration recommendations",
+  ],
+  timeline: "Structured 4–6 week engagement",
+  highlights: [
+    "From ideas to a running pilot on AWS — fixed-scope engagement from discovery through a working generative AI proof of concept aligned to business outcomes.",
+    "Built on Amazon Bedrock and AWS native services — reference architectures using Amazon Bedrock, Amazon SageMaker, Amazon Kendra or Amazon OpenSearch Service, Amazon S3, and AWS Lambda.",
+    "Roadmap to production and scale — concrete recommendations, target architecture, and backlog to evolve the pilot into a production-ready platform.",
+  ],
+  awsServices: [
+    "Amazon Bedrock",
+    "Amazon SageMaker",
+    "Amazon Kendra or Amazon OpenSearch Service",
+    "Amazon S3",
+    "AWS Lambda",
+    "Amazon API Gateway",
+    "AWS Identity and Access Management",
+    "Amazon CloudWatch",
+    "Supporting security and networking services",
+  ],
+  pricing: "Custom pricing based on your requirements; request a private offer to receive a tailored quote.",
+  support: {
+    summary:
+      "Delivery and technical support for the duration of the engagement during standard business hours via email or collaboration tools such as Slack or Microsoft Teams, with typical one-business-day response for new requests and faster response for in-flight work.",
+    hypercare:
+      "Post-engagement hypercare focused on knowledge transfer, handover, and planning the next phase. Extended support or managed services can be scoped separately.",
+    contact: "awsmktsupport@accelyze.ai",
+  },
+};
+
+const cta = {
+  text: "Request a private offer",
+  link: "/contact",
+};
+
+const seo = {
+  title: "Generative AI Strategy and Pilot on AWS | Accelyze",
+  description:
+    "Accelyze delivers a 4–6 week generative AI strategy and pilot on AWS—use case discovery, AWS-native pilot on Amazon Bedrock, and a roadmap to production.",
+};
+
+const schema: WithContext<Thing> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  inLanguage: "en-US",
+  "@id": Astro.url.href,
+  url: Astro.url.href,
+  name: service.title,
+  description: seo.description,
+  isPartOf: {
+    "@type": "WebSite",
+    url: `${Astro.site}`,
+    name: "Accelyze",
+    description:
+      "Accelyze helps enterprises design, build, and operate AI systems that make it into production.",
+  },
+};
+---
+
+<BaseLayout seo={seo} schema={schema}>
+  <section class="mx-auto max-w-[85rem] px-4 pb-12 pt-48 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+        Services · AWS
+      </p>
+      <h1 class="mt-4 text-balance text-4xl text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+        {service.title}
+      </h1>
+      <p class="mt-6 text-lg text-slate-600 dark:text-slate-300">
+        {service.subtitle}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-xl font-semibold text-slate-900 dark:text-white">The challenge</h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        {service.problem}
+      </p>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        This fixed-scope engagement takes you from initial use case strategy to a working pilot that runs in your AWS account.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-8 lg:grid-cols-2">
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">What we do</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+          {service.whatWeDo.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Deliverables</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+          {service.deliverables.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+          {service.timeline}
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+      {service.highlights.map((item) => (
+        <div class="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/80">
+          <p class="text-base text-slate-700 dark:text-slate-200">{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">AWS native stack</h2>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-base text-slate-600 dark:text-slate-300 marker:text-indigo-500">
+          {service.awsServices.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Engagement & pricing</h2>
+        <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+          {service.pricing}
+        </p>
+        <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+          The service is tailored for organizations building on AWS and maps directly to Amazon Bedrock, Amazon SageMaker, Amazon Kendra or Amazon OpenSearch Service, Amazon S3, AWS Lambda, AWS Identity and Access Management, Amazon CloudWatch, and related security and networking services.
+        </p>
+        <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">
+          {service.timeline}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[85rem] px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Support</h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        {service.support.summary}
+      </p>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        {service.support.hypercare}
+      </p>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        For support inquiries contact <a class="text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400" href={`mailto:${service.support.contact}`}>{service.support.contact}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 pb-24 text-center sm:px-6 lg:px-8">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-10 shadow-2xl shadow-indigo-200/40 dark:border-slate-800 dark:bg-slate-900/80">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+        Ready to move from AI ideas to a running pilot on AWS?
+      </h2>
+      <p class="mt-4 text-base text-slate-600 dark:text-slate-300">
+        Share your current state and we’ll respond with a candid assessment, a private offer, and a path to production on AWS.
+      </p>
+      <a
+        href={withBase(cta.link)}
+        class="mt-8 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+      >
+        {cta.text}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

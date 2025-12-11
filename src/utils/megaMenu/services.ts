@@ -14,12 +14,12 @@ export const servicesMenu = [
   {
     href: "/services/mlops-and-genai-platform-enablement",
     title: "MLOps & Platform Enablement",
-    description: "Stand up shared services, evaluation, and safety controls for AI.",
+    description: "Stand up shared services, evaluation, and safety controls for GenAI.",
     image: "if_planner",
   },
   {
-    href: "/services/ai-risk-evaluation-and-governance",
-    title: "AI Risk & Governance",
+    href: "/services/genai-risk-evaluation-and-governance",
+    title: "GenAI Risk & Governance",
     description: "Design evaluation frameworks and guardrails regulators will trust.",
     image: "if_visualizer",
   },
