@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accelyze — AI that Ships (Animated)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — change these to retheme everything
+       ============================================================ */
+    :root {
+      --bg:      #f2f0ed;
+      --card:    #ffffff;
+      --ink:     #1a1a1a;
+      --dim:     #5a5a5a;
+      --muted:   rgba(26,26,26,0.32);
+      --rule:    rgba(26,26,26,0.08);
+      --blue:    #0062ff;
+      --purple:  #9c00ff;
+      --font-heading: 'Cormorant Garamond', serif;
+      --font-body:    'Plus Jakarta Sans', sans-serif;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      --title-size:  clamp(2.5rem,   6vw, 7rem);
+      --h2-size:     clamp(1.8rem, 3.5vw,   3.5rem);
+      --h3-size:     clamp(1.1rem, 2.2vw, 2rem);
+      --body-size:   clamp(0.85rem,1.3vw, 1.1rem);
+      --small-size:  clamp(0.7rem, 0.95vw,0.9rem);
+      --label-size:  clamp(0.6rem,0.82vw,0.78rem);
+      --slide-pad:   clamp(2rem,   5vw,   6rem);
+    }
+
+    /* ============================================================
+       RESET + VIEWPORT BASE (from viewport-base.css)
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; font-family: var(--font-body); }
+    html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+    img { display: block; max-width: 100%; object-fit: contain; }
+
+    .slide {
+      width: 100vw; height: 100vh; height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--bg);
+    }
+
+    @media (max-height: 700px) {
+      :root {
+        --slide-pad:   clamp(1rem,  3vw,  2.5rem);
+        --h2-size:     clamp(1.1rem,2.5vw,1.8rem);
+        --h3-size:     clamp(0.8rem,1.5vw,1.15rem);
+        --body-size:   clamp(0.65rem,1vw, 0.85rem);
+      }
+    }
+    @media (max-height: 600px) {
+      :root {
+        --slide-pad:   clamp(0.6rem,2vw,1.5rem);
+        --h2-size:     clamp(1rem,  2vw, 1.5rem);
+        --body-size:   clamp(0.6rem,0.9vw,0.78rem);
+      }
+      .nav-dots { display: none; }
+    }
+    @media (max-height: 500px) {
+      :root {
+        --slide-pad:   clamp(0.4rem,1.5vw,1rem);
+        --title-size:  clamp(1rem,  3.5vw,1.6rem);
+        --h2-size:     clamp(0.9rem,2vw,  1.2rem);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ============================================================
+       BACKGROUND DECORATIVE CIRCLES (Enhanced with animation)
+       ============================================================ */
+    .bg-c1, .bg-c2 {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.3s ease;
+    }
+    .bg-c1 {
+      top: -8%; right: -5%;
+      width: clamp(180px, 28vw, 400px);
+      height: clamp(180px, 28vw, 400px);
+      background: radial-gradient(circle, rgba(0,98,255,0.07) 0%, transparent 65%);
+      animation: float1 8s ease-in-out infinite;
+    }
+    .bg-c2 {
+      bottom: -10%; left: -4%;
+      width: clamp(160px, 24vw, 360px);
+      height: clamp(160px, 24vw, 360px);
+      background: radial-gradient(circle, rgba(156,0,255,0.06) 0%, transparent 65%);
+      animation: float2 10s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(10px, -15px) scale(1.05); }
+      66% { transform: translate(-5px, 10px) scale(0.95); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-15px, 10px) scale(1.03); }
+      66% { transform: translate(8px, -8px) scale(0.97); }
+    }
+
+    /* ============================================================
+       CARD WRAPPER — white floating card on light bg (Enhanced)
+       ============================================================ */
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow:
+        0 1px 3px rgba(0,0,0,0.04),
+        0 8px 32px rgba(0,0,0,0.07),
+        0 0 0 1px rgba(0,0,0,0.04);
+      width: 94vw;
+      height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 4px 6px rgba(0,0,0,0.05),
+        0 12px 40px rgba(0,0,0,0.1),
+        0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    /* Blue → purple top border on every card with animation */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      background-size: 200% 100%;
+      z-index: 2;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Card sections */
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(1rem, 2.5vh, 2.5rem) clamp(1.2rem, 3.5vw, 3.5rem);
+      border-bottom: 1px solid var(--rule);
+      flex-shrink: 0;
+      transition: border-color 0.3s ease;
+    }
+    .card:hover .card-header {
+      border-bottom-color: rgba(0,98,255,0.12);
+    }
+    .card-body {
+      flex: 1;
+      overflow: hidden;
+      padding: clamp(1.2rem, 3vh, 3rem) clamp(1.2rem, 3.5vw, 3.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .card-footer {
+      padding: clamp(0.7rem, 1.5vh, 1.5rem) clamp(1.2rem, 3.5vw, 3.5rem);
+      background: rgba(0,0,0,0.018);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 2vw, 2.5rem);
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+    .card:hover .card-footer {
+      background: rgba(0,0,0,0.025);
+    }
+
+    /* ============================================================
+       ENHANCED ANIMATIONS
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(calc(-1 * clamp(20px, 3vw, 36px)));
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(clamp(20px, 3vw, 36px));
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease-elastic);
+    }
+    .reveal-fade {
+      opacity: 0;
+      transition: opacity 0.8s var(--ease);
+    }
+
+    .slide.visible .reveal,
+    .slide.visible .reveal-left,
+    .slide.visible .reveal-right,
+    .slide.visible .reveal-scale { opacity: 1; transform: none; }
+    .slide.visible .reveal-fade { opacity: 1; }
+
+    .d1 { transition-delay: 0.04s; }
+    .d2 { transition-delay: 0.14s; }
+    .d3 { transition-delay: 0.26s; }
+    .d4 { transition-delay: 0.38s; }
+    .d5 { transition-delay: 0.50s; }
+    .d6 { transition-delay: 0.62s; }
+    .d7 { transition-delay: 0.74s; }
+    .d8 { transition-delay: 0.86s; }
+    .d9 { transition-delay: 0.98s; }
+
+    /* ============================================================
+       PROGRESS BAR (Enhanced)
+       ============================================================ */
+    .progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      background-size: 200% 100%;
+      z-index: 200;
+      transition: width 0.35s ease;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    /* ============================================================
+       NAV DOTS (Enhanced)
+       ============================================================ */
+    .nav-dots {
+      position: fixed;
+      right: clamp(1rem, 2vw, 2rem);
+      top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column;
+      gap: clamp(6px, 0.9vh, 11px);
+      z-index: 200;
+    }
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(17,24,39,0.18);
+      cursor: pointer; border: none;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .nav-dot:hover {
+      transform: scale(1.4);
+      background: rgba(0,98,255,0.4);
+    }
+    .nav-dot.active {
+      background: var(--blue);
+      box-shadow: 0 0 12px rgba(0,98,255,0.65);
+      transform: scale(1.6);
+    }
+
+    /* ============================================================
+       SHARED COMPONENTS (Enhanced)
+       ============================================================ */
+    .logo-main {
+      height: clamp(3rem, 4.5vw, 4rem);
+      width: auto; max-height: none;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .logo-main:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 4px 12px rgba(0,98,255,0.2));
+    }
+    .logo-main-sm {
+      height: clamp(2rem, 3vw, 3rem);
+      width: auto; max-height: none;
+      transition: transform 0.3s ease;
+    }
+    .logo-main-sm:hover {
+      transform: scale(1.05);
+    }
+
+    .slide-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--blue);
+      display: flex; align-items: center; gap: 0.7em;
+      margin-bottom: clamp(0.5rem, 1vh, 1.1rem);
+      position: relative;
+    }
+    .slide-label::after {
+      content: '';
+      width: 0; height: 1px;
+      background: var(--blue);
+      transition: width 0.5s var(--ease);
+    }
+    .slide.visible .slide-label::after {
+      width: clamp(24px, 3.5vw, 48px);
+    }
+
+    .divider {
+      width: clamp(32px, 4.5vw, 64px); height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      margin: clamp(0.3rem, 0.6vh, 0.6rem) 0;
+      background-size: 200% 100%;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    .eyebrow {
+      font-size: var(--label-size); font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: clamp(0.5rem, 1vh, 1rem);
+      transition: color 0.3s ease;
+    }
+
+    .header-pill {
+      font-size: var(--label-size);
+      font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(0,98,255,0.8);
+      background: rgba(0,98,255,0.07);
+      border: 1px solid rgba(0,98,255,0.18);
+      border-radius: 100px;
+      padding: 0.32em 0.9em;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .header-pill:hover {
+      transform: scale(1.02);
+      background: rgba(0,98,255,0.1);
+    }
+
+    .pill {
+      display: inline-flex; align-items: center;
+      font-family: var(--font-body);
+      font-size: var(--small-size); font-weight: 600; letter-spacing: 0.04em;
+      padding: 0.32em 0.85em; border-radius: 100px; border: 1px solid;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .pill-blue   { color: var(--blue);   border-color: rgba(0,98,255,0.28);   background: rgba(0,98,255,0.05); }
+    .pill-purple { color: var(--purple); border-color: rgba(156,0,255,0.28);  background: rgba(156,0,255,0.04); }
+    .pill-dim    { color: var(--dim);    border-color: rgba(26,26,26,0.14);   background: rgba(26,26,26,0.03); }
+
+    .footer-stat { display: flex; flex-direction: column; }
+    .footer-val {
+      font-family: var(--font-heading);
+      font-size: var(--h3-size); font-weight: 700; font-style: italic;
+      color: var(--ink); line-height: 1.1;
+      transition: color 0.3s ease;
+    }
+    .card:hover .footer-val {
+      color: var(--blue);
+    }
+    .footer-lbl {
+      font-family: var(--font-body);
+      font-size: var(--small-size); color: var(--muted); margin-top: 0.1em;
+    }
+    .fdiv {
+      width: 1px; height: clamp(20px, 2.5vh, 32px);
+      background: var(--rule); flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+    .card:hover .fdiv {
+      background: rgba(0,98,255,0.15);
+    }
+
+    /* Client logos in case study headers */
+    .client-logo {
+      height: clamp(96px, 2.8vh, 40px);
+      width: auto; max-height: none;
+      transition: transform 0.3s ease;
+    }
+    .client-logo:hover {
+      transform: scale(1.05);
+    }
+
+    /* ============================================================
+       SLIDE 1 — TITLE (card with 2-column body)
+       ============================================================ */
+    .title-card-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 0;
+    }
+    .title-left {
+      padding: clamp(1.2rem, 3vh, 3rem) clamp(1.2rem, 3.5vw, 3.5rem);
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 1px solid var(--rule);
+      transition: border-color 0.3s ease;
+    }
+    .card:hover .title-left {
+      border-right-color: rgba(0,98,255,0.12);
+    }
+    .title-h1 {
+      font-family: var(--font-heading);
+      font-size: var(--title-size);
+      font-weight: 700; line-height: 1.0; letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: clamp(0.4rem, 0.8vh, 0.8rem);
+    }
+    .title-h1 .accent {
+      font-style: italic;
+      color: var(--blue);
+    }
+    .title-sub {
+      font-family: var(--font-body);
+      font-size: var(--body-size); font-weight: 300;
+      color: var(--dim); max-width: 38ch; line-height: 1.72;
+      margin-bottom: clamp(1rem, 2vh, 2rem);
+    }
+    .title-right {
+      padding: clamp(1.2rem, 3vh, 3rem) clamp(1.2rem, 3.5vw, 3.5rem);
+      display: flex; flex-direction: column; justify-content: center;
+      gap: clamp(0.4rem, 1vh, 1rem);
+    }
+    .proof-label {
+      font-size: var(--label-size); font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(17,24,39,0.3);
+      margin-bottom: clamp(0.15rem, 0.3vh, 0.3rem);
+    }
+    .metric-row {
+      display: flex; align-items: center;
+      gap: clamp(0.6rem, 1.2vw, 1.2rem);
+      padding: clamp(0.45rem, 0.9vh, 0.9rem) 0;
+      border-bottom: 1px solid var(--rule);
+      transition: transform 0.2s ease;
+    }
+    .metric-row:hover {
+      transform: translateX(8px);
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-n {
+      font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+      font-weight: 800; color: var(--blue); line-height: 1.0;
+      min-width: clamp(48px, 5.5vw, 78px); flex-shrink: 0;
+      transition: transform 0.3s var(--ease-elastic);
+    }
+    .metric-row:hover .metric-n {
+      transform: scale(1.1);
+    }
+    .metric-row:nth-child(even) .metric-n { color: var(--purple); }
+    .metric-info { flex: 1; }
+    .metric-title {
+      font-family: var(--font-heading);
+      font-size: var(--body-size); font-weight: 700; font-style: italic;
+      color: var(--ink); line-height: 1.3;
+    }
+    .metric-client { font-size: var(--small-size); color: var(--muted); margin-top: 0.1em; }
+
+    /* ============================================================
+       SLIDE 2 — PROBLEM (Enhanced)
+       ============================================================ */
+    .prob-intro {
+      font-size: var(--body-size); font-weight: 300;
+      color: var(--dim); max-width: 60ch; line-height: 1.65;
+      margin-top: clamp(0.25rem, 0.5vh, 0.5rem);
+      margin-bottom: clamp(0.7rem, 1.4vh, 1.4rem);
+    }
+    .pain-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.5rem, 1.1vw, 1.2rem);
+    }
+    .pain-card {
+      border: 1px solid rgba(0,98,255,0.12);
+      border-top: 2px solid var(--blue);
+      background: rgba(0,98,255,0.02);
+      padding: clamp(0.7rem, 1.3vw, 1.3rem);
+      border-radius: 4px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .pain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      background: rgba(0,98,255,0.05);
+    }
+    .pain-card:nth-child(2) {
+      border-top-color: var(--purple);
+      border-color: rgba(156,0,255,0.12);
+      background: rgba(156,0,255,0.02);
+    }
+    .pain-card:nth-child(2):hover {
+      background: rgba(156,0,255,0.05);
+    }
+    .pain-card:nth-child(3) { border-top-color: rgba(0,98,255,0.5); }
+    .pain-num {
+      font-size: var(--label-size); font-weight: 700;
+      color: var(--blue); letter-spacing: 0.18em; margin-bottom: 0.5em;
+      font-family: var(--font-body);
+    }
+    .pain-card:nth-child(2) .pain-num { color: var(--purple); }
+    .pain-title {
+      font-family: var(--font-heading);
+      font-size: var(--h3-size); font-weight: 700; font-style: italic;
+      color: var(--ink); margin-bottom: 0.4em; line-height: 1.2;
+    }
+    .pain-body  { font-size: var(--body-size); font-weight: 300; color: var(--dim); line-height: 1.6; }
+
+    /* ============================================================
+       SLIDE 3 — WHAT WE DO (Enhanced)
+       ============================================================ */
+    .big-stmt {
+      font-family: var(--font-heading);
+      font-size: clamp(1.5rem, 3.6vw, 3.2rem);
+      font-weight: 700; line-height: 1.15; max-width: 22ch; color: var(--ink);
+    }
+    .big-stmt em { font-style: italic; color: var(--blue); }
+    .big-stmt-sub {
+      font-family: var(--font-body);
+      font-size: var(--body-size); font-weight: 300;
+      color: var(--dim); max-width: 54ch; line-height: 1.7;
+      margin-top: clamp(0.7rem, 1.4vh, 1.4rem);
+    }
+    .stmt-pills {
+      display: flex; gap: clamp(0.4rem, 0.8vw, 0.8rem); flex-wrap: wrap;
+      margin-top: clamp(0.8rem, 1.6vh, 1.6rem);
+    }
+
+    /* ============================================================
+       SLIDE 4 — HOW IT WORKS (Enhanced)
+       ============================================================ */
+    .process-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: clamp(0.4rem, 0.9vw, 1rem);
+      margin-top: clamp(0.8rem, 1.8vh, 1.8rem);
+      position: relative;
+    }
+    .process-row::before {
+      content: '';
+      position: absolute;
+      top: clamp(15px, 2.2vh, 28px);
+      left: calc(12.5% + clamp(6px, 0.8vw, 12px));
+      right: calc(12.5% + clamp(6px, 0.8vw, 12px));
+      height: 1px;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--blue));
+      background-size: 200% 100%;
+      opacity: 0.2; z-index: 1;
+      animation: gradientShift 4s ease infinite;
+    }
+    .p-step { display: flex; flex-direction: column; gap: clamp(0.35rem, 0.7vh, 0.7rem); }
+    .p-num {
+      width: clamp(30px, 4vw, 48px); height: clamp(30px, 4vw, 48px);
+      border-radius: 50%;
+      border: 1px solid rgba(0,98,255,0.28);
+      background: rgba(0,98,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--body-size); font-weight: 700; color: var(--blue);
+      flex-shrink: 0; position: relative; z-index: 2;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+    .p-step:hover .p-num {
+      transform: scale(1.1);
+      background: rgba(0,98,255,0.1);
+      border-color: var(--blue);
+    }
+    .p-step:nth-child(2) .p-num, .p-step:nth-child(4) .p-num {
+      border-color: rgba(156,0,255,0.28); background: rgba(156,0,255,0.05); color: var(--purple);
+    }
+    .p-step:nth-child(2):hover .p-num, .p-step:nth-child(4):hover .p-num {
+      background: rgba(156,0,255,0.1);
+      border-color: var(--purple);
+    }
+    .p-title {
+      font-family: var(--font-heading);
+      font-size: var(--h3-size); font-weight: 700; font-style: italic;
+      color: var(--ink);
+    }
+    .p-desc  { font-size: var(--body-size); font-weight: 300; color: var(--dim); line-height: 1.6; }
+
+    /* ============================================================
+       SLIDE 5 — SERVICES (Enhanced)
+       ============================================================ */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: clamp(0.5rem, 1.1vw, 1.1rem);
+      margin-top: clamp(0.7rem, 1.4vh, 1.4rem);
+    }
+    .svc-card {
+      background: rgba(0,0,0,0.015);
+      border: 1px solid rgba(17,24,39,0.08);
+      border-left: 2px solid var(--blue);
+      padding: clamp(0.7rem, 1.3vw, 1.4rem);
+      border-radius: 4px; transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .svc-card:hover {
+      background: rgba(0,98,255,0.03);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    .svc-card:nth-child(2) { border-left-color: var(--purple); }
+    .svc-card:nth-child(2):hover { background: rgba(156,0,255,0.03); }
+    .svc-card:nth-child(3) { border-left-color: rgba(0,98,255,0.45); }
+    .svc-card:nth-child(4) { border-left-color: rgba(156,0,255,0.55); }
+    .svc-tag-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4em; }
+    .svc-tag { font-size: var(--label-size); font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); }
+    .svc-card:nth-child(2) .svc-tag, .svc-card:nth-child(4) .svc-tag { color: var(--purple); }
+    .svc-dur  { font-size: var(--label-size); font-weight: 600; color: var(--muted); letter-spacing: 0.04em; }
+    .svc-name {
+      font-family: var(--font-heading);
+      font-size: var(--h3-size); font-weight: 700; font-style: italic;
+      color: var(--ink); margin-bottom: 0.35em; line-height: 1.22;
+    }
+    .svc-desc {
+      font-family: var(--font-body);
+      font-size: var(--body-size); font-weight: 300; color: var(--dim); line-height: 1.6;
+    }
+
+    /* ============================================================
+       SLIDE 6 — WHY ACCELYZE (Enhanced)
+       ============================================================ */
+    .why-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.7rem, 1.4vw, 1.5rem);
+      margin-top: clamp(0.7rem, 1.5vh, 1.5rem);
+    }
+    .why-card {
+      padding: clamp(0.8rem, 1.5vw, 1.7rem);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.015); border: 1px solid var(--rule);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .why-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      border-radius: 6px 6px 0 0;
+    }
+    .why-card:nth-child(2)::before { background: linear-gradient(90deg, var(--purple), transparent); }
+    .why-ico {
+      width: clamp(26px, 3.2vw, 42px); height: clamp(26px, 3.2vw, 42px);
+      background: rgba(0,98,255,0.08); border: 1px solid rgba(0,98,255,0.2);
+      border-radius: 4px; margin-bottom: clamp(0.5rem, 0.9vh, 0.9rem);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .why-card:hover .why-ico {
+      transform: scale(1.1);
+      background: rgba(0,98,255,0.12);
+    }
+    .why-card:nth-child(2) .why-ico { background: rgba(156,0,255,0.08); border-color: rgba(156,0,255,0.2); }
+    .why-card:nth-child(2):hover .why-ico { background: rgba(156,0,255,0.12); }
+    .why-ico svg { width: 52%; height: 52%; }
+    .why-title {
+      font-family: var(--font-heading);
+      font-size: var(--h3-size); font-weight: 700; font-style: italic;
+      color: var(--ink); margin-bottom: 0.4em;
+    }
+    .why-body  {
+      font-family: var(--font-body);
+      font-size: var(--body-size); font-weight: 300; color: var(--dim); line-height: 1.62;
+    }
+    .why-footer {
+      display: flex; flex-wrap: wrap; gap: clamp(0.4rem, 0.8vw, 0.8rem);
+      margin-top: clamp(0.8rem, 1.6vh, 1.6rem);
+      padding-top: clamp(0.6rem, 1.2vh, 1.2rem);
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ============================================================
+       SLIDES 7 & 8 — CASE STUDIES (Enhanced)
+       ============================================================ */
+    .cs-header {
+      display: flex; align-items: center;
+      gap: clamp(0.6rem, 1.4vw, 1.4rem);
+      margin-bottom: clamp(0.2rem, 0.5vh, 0.5rem); flex-wrap: wrap;
+    }
+    .cs-client-name {
+      font-family: var(--font-heading);
+      font-size: var(--h2-size); font-weight: 700; color: var(--ink); line-height: 1.0;
+    }
+    .cs-industry {
+      font-size: var(--label-size); font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--rule);
+      padding: 0.25em 0.65em; border-radius: 4px;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+    .cs-industry:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    .cs-headline {
+      font-size: clamp(0.88rem, 1.65vw, 1.45rem); font-weight: 600;
+      line-height: 1.25; color: var(--dim);
+      margin-bottom: clamp(0.4rem, 0.8vh, 0.75rem);
+    }
+    .cs-headline em { font-style: normal; color: var(--ink); font-weight: 800; }
+    .cs-layout {
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(1.2rem, 2.5vw, 3.5rem); align-items: start;
+    }
+    .cs-left { display: flex; flex-direction: column; gap: clamp(1rem, 1.5vh, 1.5rem); }
+    .cs-section-lbl { font-size: var(--label-size); font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5em; }
+    .cs-section-lbl.purple { color: var(--purple); }
+    .cs-section-body { font-size: var(--body-size); font-weight: 300; color: var(--dim); line-height: 1.65; }
+    .cs-tech-row { display: flex; flex-wrap: wrap; gap: clamp(0.25rem, 0.5vw, 0.5rem); padding-top: clamp(1rem, 1.5vh, 1.5rem); }
+    .cs-right { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.35rem, 0.7vw, 0.75rem); }
+    .cs-metric {
+      background: rgba(0,98,255,0.03); border: 1px solid rgba(0,98,255,0.12);
+      border-top: 2px solid var(--blue); padding: clamp(0.7rem, 1.2vw, 1.2rem) clamp(0.55rem, 1vw, 1rem);
+      border-radius: 4px; display: flex; flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cs-metric:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .cs-metric:nth-child(2), .cs-metric:nth-child(4) {
+      border-top-color: var(--purple); background: rgba(156,0,255,0.03); border-color: rgba(156,0,255,0.12);
+    }
+    .cs-metric-n { font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 900; color: var(--blue); line-height: 1.0; }
+    .cs-metric:nth-child(2) .cs-metric-n, .cs-metric:nth-child(4) .cs-metric-n { color: var(--purple); }
+    .cs-metric-l { font-size: var(--small-size); font-weight: 300; color: var(--muted); line-height: 1.4; margin-top: 0.3em; }
+
+    /* ============================================================
+       SLIDE 9 — CTA (full blue background - Enhanced)
+       ============================================================ */
+    .slide-cta { background: var(--blue); }
+    .slide-cta .bg-c1 { background: radial-gradient(circle, rgba(255,255,255,0.09) 0%, transparent 65%); }
+    .slide-cta .bg-c2 { background: radial-gradient(circle, rgba(156,0,255,0.28) 0%, transparent 65%); }
+    .slide-cta::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%; height: 70%;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .cta-content {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: var(--slide-pad);
+      max-width: min(88vw, 820px);
+    }
+    .cta-eyebrow {
+      font-size: var(--label-size); font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: clamp(0.3rem, 0.6vh, 0.6rem);
+    }
+    .cta-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 700;
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: #ffffff; max-width: 16ch;
+      margin: clamp(0.5rem, 1vh, 1rem) auto;
+    }
+    .cta-headline .accent {
+      font-style: italic;
+      color: rgba(255,255,255,0.6);
+    }
+    .cta-sub { font-size: var(--body-size); font-weight: 300; color: rgba(255,255,255,0.6); margin-bottom: clamp(1rem, 2.2vh, 2.2rem); }
+    .cta-btns { display: flex; gap: clamp(0.5rem, 1vw, 1rem); justify-content: center; flex-wrap: wrap; }
+    .btn-p {
+      font-family: var(--font); font-size: var(--body-size); font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--blue); background: #ffffff; border: none; border-radius: 4px;
+      padding: clamp(0.55rem, 1.1vh, 0.9rem) clamp(1.1rem, 2vw, 2rem);
+      cursor: pointer; transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-p:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .btn-s {
+      font-family: var(--font); font-size: var(--body-size); font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(255,255,255,0.85); background: transparent;
+      border: 1px solid rgba(255,255,255,0.35); border-radius: 4px;
+      padding: clamp(0.55rem, 1.1vh, 0.9rem) clamp(1.1rem, 2vw, 2rem);
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-s:hover { border-color: rgba(255,255,255,0.65); background: rgba(255,255,255,0.05); }
+
+    .trusted-strip {
+      display: flex; gap: clamp(0.8rem, 1.8vw, 2rem);
+      justify-content: center; align-items: center;
+      margin-top: clamp(1rem, 2vh, 2rem);
+      padding-top: clamp(0.7rem, 1.4vh, 1.4rem);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      flex-wrap: wrap;
+    }
+    .trusted-lbl {
+      font-size: var(--label-size); font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    /* White pill to display colored logos on blue background */
+    .logo-badge {
+      display: inline-flex; align-items: center;
+      background: rgba(255,255,255,0.92); border-radius: 6px;
+      padding: clamp(4px, 0.6vh, 8px) clamp(8px, 1.2vw, 14px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .logo-badge img { height: clamp(16px, 2.2vh, 28px); width: auto; max-height: none; }
+    .aws-badge-pill {
+      display: inline-flex; align-items: center; gap: 0.5em;
+      font-size: var(--small-size); font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 0.38em 0.9em; border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .aws-badge-pill:hover { border-color: rgba(255,255,255,0.4); }
+    .aws-dot { width: 6px; height: 6px; background: #ff9900; border-radius: 50%; flex-shrink: 0; }
+
+    .cta-contact {
+      display: flex; gap: clamp(0.8rem, 1.8vw, 2.5rem); justify-content: center;
+      flex-wrap: wrap; margin-top: clamp(0.8rem, 1.6vh, 1.6rem);
+    }
+    .contact-item { display: flex; align-items: center; gap: 0.45em; font-size: var(--small-size); color: rgba(255,255,255,0.35); }
+    .contact-item a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+    .contact-item a:hover { color: rgba(255,255,255,0.7); }
+    .cdot { width: 3px; height: 3px; background: rgba(255,255,255,0.35); border-radius: 50%; flex-shrink: 0; }
+
+  </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+<!-- Navigation dots -->
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+
+<!-- ================================================================
+     SLIDE 1 — TITLE
+     ================================================================ -->
+<section class="slide" id="slide-1" aria-label="Title slide">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+
+    <!-- Header: logo + AWS pill -->
+    <div class="card-header">
+      <img src="Accelyze.png" alt="Accelyze" class="logo-main reveal d2"/>
+      <img src="apn.png" alt="AWS Partner Network" class="reveal d2" style="height:clamp(28px,3.8vh,52px);width:auto;max-height:none;"/>
+    </div>
+
+    <!-- Body: headline left, proof metrics right -->
+    <div class="title-card-body">
+
+      <div class="title-left">
+        <div class="eyebrow reveal d3">Generative AI &amp; Agentic Solutions</div>
+        <h1 class="title-h1 reveal d3">AI That<br/><span class="accent">Ships.</span></h1>
+        <div class="divider reveal d4"></div>
+        <p class="title-sub reveal d4">
+          We move your GenAI initiatives from pilot to production —
+          measurable outcomes, enterprise governance, deep AWS integration.
+        </p>
+      </div>
+
+      <div class="title-right">
+        <div class="proof-label reveal d4">Client Results</div>
+        <div class="metric-row reveal d5">
+          <span class="metric-n">50%</span>
+          <div class="metric-info">
+            <div class="metric-title">Faster diagnostic resolution</div>
+            <div class="metric-client">Yamaha Motor — 11 wks to production</div>
+          </div>
+        </div>
+        <div class="metric-row reveal d6">
+          <span class="metric-n">55%</span>
+          <div class="metric-info">
+            <div class="metric-title">Reduction in analyst effort</div>
+            <div class="metric-client">Crowley — Logistics &amp; Marine</div>
+          </div>
+        </div>
+        <div class="metric-row reveal d7">
+          <span class="metric-n">70%</span>
+          <div class="metric-info">
+            <div class="metric-title">Copilot adoption rate</div>
+            <div class="metric-client">Crowley — targeted network lanes</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer stats bar -->
+    <div class="card-footer">
+      <div class="footer-stat reveal d5">
+        <span class="footer-val">Weeks</span>
+        <span class="footer-lbl">Not months, to production</span>
+      </div>
+      <div class="fdiv reveal d5"></div>
+      <div class="footer-stat reveal d6">
+        <span class="footer-val">Amazon &amp; Google</span>
+        <span class="footer-lbl">Former leaders on your team</span>
+      </div>
+      <div class="fdiv reveal d6"></div>
+      <div class="footer-stat reveal d7">
+        <span class="footer-val">Regulated Industries</span>
+        <span class="footer-lbl">Safety &amp; governance built-in</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 2 — THE PROBLEM
+     ================================================================ -->
+<section class="slide" id="slide-2" aria-label="The problem">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+    <div class="card-body">
+      <div class="slide-label reveal d1">01 — The Problem</div>
+      <h2 style="font-family:var(--font-heading);font-size:var(--h2-size);font-weight:700;font-style:italic;line-height:1.1;color:var(--ink);max-width:28ch;" class="reveal d2">
+        Your GenAI pilots are working.<br/>
+        <span style="color:var(--blue);">Your path to production isn't.</span>
+      </h2>
+      <p class="prob-intro reveal d3">
+        Most organizations have run successful GenAI experiments. Very few have shipped them at enterprise scale.
+        The gap isn't technical capability — it's the structured path from proof-of-concept
+        to a system your business relies on every day.
+      </p>
+      <div class="pain-grid">
+        <div class="pain-card reveal d4">
+          <div class="pain-num">01</div>
+          <div class="pain-title">Unclear ROI</div>
+          <div class="pain-body">Pilots demonstrate capability, not business value. Leadership needs clear metrics tied to cost reduction, efficiency, or revenue before committing to production.</div>
+        </div>
+        <div class="pain-card reveal d5">
+          <div class="pain-num">02</div>
+          <div class="pain-title">Integration Complexity</div>
+          <div class="pain-body">Connecting GenAI to existing enterprise systems, data pipelines, and workflows is where most pilots stall. It's not a model problem — it's an architecture problem.</div>
+        </div>
+        <div class="pain-card reveal d6">
+          <div class="pain-num">03</div>
+          <div class="pain-title">Deployment Risk</div>
+          <div class="pain-body">Security, compliance, and operational controls are afterthoughts in pilots. In production — especially regulated industries — they're non-negotiable.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 3 — WHAT WE DO
+     ================================================================ -->
+<section class="slide" id="slide-3" aria-label="What Accelyze does">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+    <div class="card-body">
+      <div style="max-width:100%;">
+        <div class="slide-label reveal d1">02 — What We Do</div>
+        <div class="divider reveal d2"></div>
+        <h2 class="big-stmt reveal d3" style="max-width: 28ch;">
+          We turn engineering experiments<br/>
+          into <em>production systems</em>.
+        </h2>
+        <p class="big-stmt-sub reveal d4">
+          Accelyze deploys secure, production-grade GenAI workloads on AWS —
+          with ROI metrics tied to real business outcomes. Not demos.
+          Not capability showcases. Systems that ship, integrate, and operate at scale.
+        </p>
+        <div class="stmt-pills reveal d5">
+          <span class="pill pill-blue">Outcome Driven</span>
+          <span class="pill pill-purple">Enterprise Tested</span>
+          <span class="pill pill-dim">Safety Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 4 — HOW IT WORKS
+     ================================================================ -->
+<section class="slide" id="slide-4" aria-label="Our approach">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+    <div class="card-body">
+      <div class="slide-label reveal d1">03 — Our Approach</div>
+      <h2 style="font-family:var(--font-heading);font-size:var(--h2-size);font-weight:700;font-style:italic;line-height:1.1;color:var(--ink);" class="reveal d2">
+        A proven path from experiment<br/>
+        <span style="color:var(--blue);">to enterprise-grade production.</span>
+      </h2>
+      <p style="font-size:var(--body-size);font-weight:300;color:var(--dim);margin-top:clamp(0.25rem,0.5vh,0.5rem);max-width:56ch;" class="reveal d2">
+        Four disciplined phases. Clear deliverables at every stage. No surprises.
+      </p>
+      <div class="process-row">
+        <div class="p-step reveal d3">
+          <div class="p-num">01</div>
+          <div class="p-title">Discover</div>
+          <div class="p-desc">Align business outcomes, success metrics, and AWS readiness upfront. We define what "done" looks like before writing a line of code.</div>
+        </div>
+        <div class="p-step reveal d4">
+          <div class="p-num">02</div>
+          <div class="p-title">Design</div>
+          <div class="p-desc">Architect secure, scalable GenAI solutions aligned with AWS best practices and your governance requirements.</div>
+        </div>
+        <div class="p-step reveal d5">
+          <div class="p-num">03</div>
+          <div class="p-title">Deliver</div>
+          <div class="p-desc">Build, integrate, and harden production GenAI workloads on AWS. Real systems. Real integrations. Production-grade from day one.</div>
+        </div>
+        <div class="p-step reveal d6">
+          <div class="p-num">04</div>
+          <div class="p-title">Operate</div>
+          <div class="p-desc">Support launch, measure value, and enable continuous improvement post-deployment. Your success is our accountability.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 5 — SERVICES
+     ================================================================ -->
+<section class="slide" id="slide-5" aria-label="Services">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+    <div class="card-body">
+      <div class="slide-label reveal d1">04 — Services &amp; Offerings</div>
+      <h2 style="font-family:var(--font-heading);font-size:var(--h2-size);font-weight:700;font-style:italic;line-height:1.1;color:var(--ink);" class="reveal d2">
+        Built for every stage of<br/><span style="color:var(--blue);">your GenAI journey.</span>
+      </h2>
+      <div class="services-grid">
+        <div class="svc-card reveal d3">
+          <div class="svc-tag-row">
+            <div class="svc-tag">Strategy</div>
+            <div class="svc-dur">4–6 weeks</div>
+          </div>
+          <div class="svc-name">GenAI Strategy &amp;<br/>Readiness</div>
+          <div class="svc-desc">Prioritize use cases, assess organizational readiness, and build a production roadmap with ROI projections. Deliverable: business case, prioritized initiative portfolio, implementation timeline.</div>
+        </div>
+        <div class="svc-card reveal d4">
+          <div class="svc-tag-row">
+            <div class="svc-tag">Delivery</div>
+            <div class="svc-dur">8–12 weeks</div>
+          </div>
+          <div class="svc-name">Pilot to Production<br/>Delivery</div>
+          <div class="svc-desc">Take a validated pilot through deep enterprise integration, production launch, and early operations — fully hardened on AWS. Deliverable: production-ready system, training, performance dashboards.</div>
+        </div>
+        <div class="svc-card reveal d5">
+          <div class="svc-tag-row">
+            <div class="svc-tag">Platform</div>
+            <div class="svc-dur">8–12 weeks</div>
+          </div>
+          <div class="svc-name">MLOps &amp; Platform<br/>Enablement</div>
+          <div class="svc-desc">Stand up shared services, evaluation pipelines, and safety controls — reducing GenAI development time by 60–80%. Deliverable: enterprise platform, reusable components, compliance workflows.</div>
+        </div>
+        <div class="svc-card reveal d6">
+          <div class="svc-tag-row">
+            <div class="svc-tag">Governance</div>
+            <div class="svc-dur">6–10 weeks</div>
+          </div>
+          <div class="svc-name">GenAI Risk &amp;<br/>Governance</div>
+          <div class="svc-desc">Design evaluation frameworks and guardrails built for regulated environments — what your legal, compliance, and risk teams require. Deliverable: governance framework, monitoring system, compliance docs.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 6 — WHY ACCELYZE
+     ================================================================ -->
+<section class="slide" id="slide-6" aria-label="Why Accelyze">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1">
+    <div class="card-body">
+      <div class="slide-label reveal d1">05 — Why Accelyze</div>
+      <h2 style="font-family:var(--font-heading);font-size:var(--h2-size);font-weight:700;font-style:italic;line-height:1.1;color:var(--ink);" class="reveal d2">
+        We only take projects<br/><span style="color:var(--blue);">that can ship.</span>
+      </h2>
+      <div class="why-grid">
+        <div class="why-card reveal d3">
+          <div class="why-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0062ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div class="why-title">Outcome Driven</div>
+          <div class="why-body">We focus on business results, not models. Every engagement has clear metrics tied to cost reduction, efficiency, or revenue. If we can't define the outcome upfront, we won't start the engagement.</div>
+        </div>
+        <div class="why-card reveal d4">
+          <div class="why-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#9c00ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="why-title">Enterprise Tested</div>
+          <div class="why-body">Built by former leaders from Amazon and Google who have scaled AI systems in real enterprise environments. Hands-on leaders from day one — not account managers managing offshore teams.</div>
+        </div>
+        <div class="why-card reveal d5">
+          <div class="why-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0062ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="why-title">Safety Ready</div>
+          <div class="why-body">Designed for regulated and high-risk industries. Security, compliance, and operational controls are architectural decisions made at the start — not features bolted on before launch.</div>
+        </div>
+      </div>
+      <div class="why-footer reveal d6">
+        <span class="pill pill-blue">AWS Recommended Partner</span>
+        <span class="pill pill-dim">Regulated Industries</span>
+        <span class="pill pill-dim">No-Cost Initial Assessment</span>
+        <span class="pill pill-dim">Opinionated MLOps &amp; Safety</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 7 — CASE STUDY: YAMAHA MOTOR
+     ================================================================ -->
+<section class="slide" id="slide-7" aria-label="Case study: Yamaha Motor">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1" style="height:92vh;">
+    <div class="card-body">
+      <div class="slide-label reveal d1">06 — Case Study</div>
+
+      <div class="cs-header">
+        <img src="logo-yamaha.svg" alt="Yamaha Motor" class="client-logo reveal d2"/>
+        <span class="cs-industry reveal d2">Automotive &amp; Service</span>
+      </div>
+
+      <h2 class="cs-headline reveal d3">
+        <em>50% faster diagnostics.</em> 41% fewer escalations. 11 weeks to production.
+      </h2>
+
+      <div class="cs-layout">
+        <div class="cs-left">
+          <div class="reveal d4">
+            <div class="cs-section-lbl">The Challenge</div>
+            <p class="cs-section-body">
+              Technicians at 1,500+ dealers scattered repair procedures across PDFs, legacy portals, and wikis —
+              driving inconsistent first-time fix rates and unnecessary warranty costs.
+              Previous chatbots hallucinated specs and raised safety &amp; liability concerns.
+            </p>
+          </div>
+          <div class="reveal d5">
+            <div class="cs-section-lbl purple">The Solution</div>
+            <p class="cs-section-body">
+              Production RAG pipeline on AWS Bedrock with Anthropic Claude — backed by 60,000+ technical manuals
+              in Amazon OpenSearch. Guardrails for grounding &amp; safety. 250-question evaluation harness.
+              Staged rollout: 40 technicians across 3 dealers.
+            </p>
+          </div>
+          <div class="cs-tech-row reveal d6">
+            <span class="pill pill-blue">AWS Bedrock</span>
+            <span class="pill pill-purple">Anthropic Claude</span>
+            <span class="pill pill-dim">Amazon OpenSearch</span>
+            <span class="pill pill-dim">Salesforce &amp; SAP</span>
+          </div>
+        </div>
+
+        <div class="cs-right reveal d4">
+          <div class="cs-metric">
+            <span class="cs-metric-n">50%</span>
+            <span class="cs-metric-l">Faster diagnostic time<br/>14 min → 7 min avg.</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">41%</span>
+            <span class="cs-metric-l">Fewer Level 2<br/>escalations</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">11</span>
+            <span class="cs-metric-l">Weeks from kickoff<br/>to production pilot</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">+10</span>
+            <span class="cs-metric-l">Points dealer<br/>satisfaction score</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 8 — CASE STUDY: CROWLEY
+     ================================================================ -->
+<section class="slide" id="slide-8" aria-label="Case study: Crowley">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="card reveal-scale d1" style="height:92vh;">
+    <div class="card-body">
+      <div class="slide-label reveal d1">07 — Case Study</div>
+
+      <div class="cs-header">
+        <img src="logo-crowley.svg" alt="Crowley icon" class="client-logo reveal d2"/>
+        <span class="cs-industry reveal d2">Logistics &amp; Marine</span>
+      </div>
+
+      <h2 class="cs-headline reveal d3">
+        <em>55% less analyst effort.</em> Human decision authority. Zero black-box risk.
+      </h2>
+
+      <div class="cs-layout">
+        <div class="cs-left">
+          <div class="reveal d4">
+            <div class="cs-section-lbl">The Challenge</div>
+            <p class="cs-section-body">
+              Analysts at this century-old logistics company assembled network data from TMS, WMS, rate engines,
+              and spreadsheets manually — spending far more time compiling than optimizing. Leadership wanted
+              efficiency gains without surrendering decision authority to opaque automation.
+            </p>
+          </div>
+          <div class="reveal d5">
+            <div class="cs-section-lbl purple">The Solution</div>
+            <p class="cs-section-body">
+              Sidecar copilot architecture using OpenAI — read-only recommendations surfaced directly inside
+              existing analyst dashboards. On-demand analysis and scheduled network monitoring. Humans retain
+              full decision authority; the copilot surfaces insights and prioritizes, never commits.
+            </p>
+          </div>
+          <div class="cs-tech-row reveal d6">
+            <span class="pill pill-blue">OpenAI</span>
+            <span class="pill pill-dim">Cloud Data Warehouse</span>
+            <span class="pill pill-dim">TMS / WMS Integration</span>
+            <span class="pill pill-dim">Dashboard Extension</span>
+          </div>
+        </div>
+
+        <div class="cs-right reveal d4">
+          <div class="cs-metric">
+            <span class="cs-metric-n">55%</span>
+            <span class="cs-metric-l">Less analyst<br/>reporting effort</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">42%</span>
+            <span class="cs-metric-l">Faster lane<br/>analysis cycle</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">18%</span>
+            <span class="cs-metric-l">Fewer unplanned<br/>expedites</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric-n">70%</span>
+            <span class="cs-metric-l">Copilot adoption in<br/>targeted network lanes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SLIDE 9 — NEXT STEP / CTA
+     ================================================================ -->
+<section class="slide slide-cta" id="slide-9" aria-label="Next step">
+  <div class="bg-c1" aria-hidden="true"></div>
+  <div class="bg-c2" aria-hidden="true"></div>
+
+  <div class="cta-content">
+    <img src="Accelyze-dark.png" alt="Accelyze" class="logo-main reveal d1"
+         style="margin: 0 auto clamp(0.6rem,1.2vh,1.2rem);"/>
+    <div class="cta-eyebrow reveal d2">Generative AI &amp; Agentic Solutions</div>
+    <h2 class="cta-headline reveal d2">
+      Ready for AI<br/>that <span class="accent">ships?</span>
+    </h2>
+    <p class="cta-sub reveal d3">
+      Let's identify your highest-value GenAI opportunity — in one conversation.
+    </p>
+    <div class="cta-btns reveal d4">
+      <button class="btn-p">Schedule a Discovery Call</button>
+      <button class="btn-s">Get No-Cost Assessment</button>
+    </div>
+
+    <!-- Trusted by: client logos + AWS -->
+    <div class="trusted-strip reveal d5">
+      <span class="trusted-lbl">Trusted by</span>
+      <div class="logo-badge">
+        <img src="logo-yamaha.svg" alt="Yamaha Motor"/>
+      </div>
+      <div class="logo-badge">
+        <img src="logo-crowley.svg" alt="Crowley icon"/>
+      </div>
+      <div class="logo-badge">
+        <img src="logo-haskell.svg" alt="Haskell"/>
+      </div>
+      <div class="logo-badge">
+        <img src="apn.png" alt="AWS Partner Network"/>
+      </div>
+    </div>
+
+    <div class="cta-contact reveal d6">
+      <div class="contact-item">
+        <span class="cdot"></span>
+        <a href="mailto:hello@accelyze.ai">hello@accelyze.ai</a>
+      </div>
+      <div class="contact-item">
+        <span class="cdot"></span>
+        <a href="tel:+19493463889">1 (949) 346-3889</a>
+      </div>
+      <div class="contact-item">
+        <span class="cdot"></span>
+        <span>Los Angeles / Denver</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  /* ============================================================
+     SLIDE PRESENTATION CONTROLLER (Enhanced)
+     Keyboard nav, touch/swipe, wheel scroll,
+     IntersectionObserver animations, progress bar, nav dots
+     ============================================================ */
+  class SlidePresentation {
+    constructor() {
+      this.slides       = Array.from(document.querySelectorAll('.slide'));
+      this.currentIndex = 0;
+      this.isScrolling  = false;
+      this.touchStartY  = 0;
+      this.progressBar      = document.getElementById('progressBar');
+      this.navDotsContainer = document.getElementById('navDots');
+
+      this.buildNavDots();
+      this.setupObserver();
+      this.setupKeyboard();
+      this.setupTouch();
+      this.setupWheel();
+      this.setupHoverEffects();
+      this.updateProgress(0);
+    }
+
+    buildNavDots() {
+      this.navDotsContainer.innerHTML = '';
+      this.slides.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'nav-dot' + (i === 0 ? ' active' : '');
+        btn.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        btn.addEventListener('click', () => this.goTo(i));
+        this.navDotsContainer.appendChild(btn);
+      });
+    }
+
+    setupObserver() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            const idx = this.slides.indexOf(entry.target);
+            if (idx !== -1) {
+              this.currentIndex = idx;
+              this.updateProgress(idx);
+              this.updateDots(idx);
+            }
+          }
+        });
+      }, { threshold: 0.5 });
+      this.slides.forEach(s => obs.observe(s));
+    }
+
+    setupKeyboard() {
+      document.addEventListener('keydown', e => {
+        const fwd = ['ArrowDown', 'ArrowRight', ' ', 'PageDown'];
+        const bwd = ['ArrowUp', 'ArrowLeft', 'PageUp'];
+        if (fwd.includes(e.key))  { e.preventDefault(); this.goTo(this.currentIndex + 1); }
+        if (bwd.includes(e.key))  { e.preventDefault(); this.goTo(this.currentIndex - 1); }
+        if (e.key === 'Home') { e.preventDefault(); this.goTo(0); }
+        if (e.key === 'End')  { e.preventDefault(); this.goTo(this.slides.length - 1); }
+      });
+    }
+
+    setupTouch() {
+      document.addEventListener('touchstart', e => {
+        this.touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      document.addEventListener('touchend', e => {
+        const dy = this.touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(dy) > 50) dy > 0 ? this.goTo(this.currentIndex + 1) : this.goTo(this.currentIndex - 1);
+      }, { passive: true });
+    }
+
+    setupWheel() {
+      document.addEventListener('wheel', e => {
+        e.preventDefault();
+        if (this.isScrolling) return;
+        this.isScrolling = true;
+        e.deltaY > 0 ? this.goTo(this.currentIndex + 1) : this.goTo(this.currentIndex - 1);
+        setTimeout(() => { this.isScrolling = false; }, 850);
+      }, { passive: false });
+    }
+
+    setupHoverEffects() {
+      // Add subtle parallax effect on mouse move for decorative circles
+      document.addEventListener('mousemove', (e) => {
+        const circles = document.querySelectorAll('.bg-c1, .bg-c2');
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+        circles.forEach(circle => {
+          const baseTransform = circle.style.transform || '';
+          circle.style.transform = `${baseTransform} translate(${x}px, ${y}px)`;
+        });
+      });
+    }
+
+    goTo(i) {
+      if (i < 0 || i >= this.slides.length) return;
+      this.slides[i].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    updateProgress(i) {
+      const pct = this.slides.length > 1 ? (i / (this.slides.length - 1)) * 100 : 0;
+      this.progressBar.style.width = pct + '%';
+    }
+
+    updateDots(i) {
+      this.navDotsContainer.querySelectorAll('.nav-dot')
+        .forEach((d, j) => d.classList.toggle('active', j === i));
+    }
+  }
+
+  new SlidePresentation();
+</script>
+</body>
+</html>
