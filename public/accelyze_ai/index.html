@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Accelyze AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+<style>
+  :root {
+    --blue:   #2563EB;
+    --blue-2: #60A5FA;
+    --blue-ink: #1E40AF;
+    --ink:    #0B1220;
+    --ink-2:  #1E293B;
+    --slate:  #475569;
+    --slate-2:#64748B;
+    --muted:  #94A3B8;
+    --line:   #E2E8F0;
+    --line-2: #CBD5E1;
+    --surface:#F8FAFC;
+    --surface-2:#F1F5F9;
+    --white:  #FFFFFF;
+
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-lg: 22px;
+
+    --shadow-sm: 0 1px 2px rgba(11,18,32,.04), 0 1px 1px rgba(11,18,32,.03);
+    --shadow:    0 8px 24px -8px rgba(11,18,32,.10), 0 2px 6px rgba(11,18,32,.04);
+    --shadow-lg: 0 30px 60px -20px rgba(37,99,235,.25), 0 18px 36px -18px rgba(11,18,32,.18);
+
+    --gradient: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+
+    --aws-orange: #FF9900;
+  }
+
+  /* ---------- Reveal overrides ---------- */
+  .reveal-viewport { background: var(--surface); }
+  .reveal {
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+    color: var(--ink);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .reveal .slides { text-align: left; }
+  .reveal .slides > section,
+  .reveal .slides > section > section { padding: 0 !important; }
+  .reveal .slide-number {
+    color: var(--muted);
+    background: transparent;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .reveal .progress { color: var(--blue); height: 3px; }
+  .reveal .controls { color: var(--blue); }
+
+  /* ---------- Slide chrome ---------- */
+  .reveal .slides > section { height: 900px !important; }
+  .slide {
+    width: 100%;
+    height: 900px;
+    box-sizing: border-box;
+    padding: 44px 64px 64px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide .corner-mark {
+    position: absolute;
+    top: 20px; left: 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .slide .corner-mark .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    margin-right: 10px;
+    transform: translateY(-1px);
+    vertical-align: middle;
+  }
+
+  .slide .footer {
+    position: absolute;
+    bottom: 20px; left: 64px; right: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .slide .footer .brand { display: flex; align-items: center; gap: 10px; }
+  .slide .footer .brand-mark {
+    width: 16px; height: 16px;
+    background: var(--gradient);
+    border-radius: 4px;
+  }
+
+  /* ---------- Type system ---------- */
+  .reveal .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .reveal h2 { font-size: 42px; font-weight: 800; line-height: 1.05; }
+  .reveal h3 { font-size: 22px; font-weight: 700; }
+  .reveal h4 { font-size: 16px; font-weight: 600; letter-spacing: 0; }
+
+  .reveal p {
+    color: var(--slate);
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 400;
+    margin: 0;
+  }
+  .reveal .lead { font-size: 18px; line-height: 1.5; color: var(--ink-2); max-width: 90ch; }
+  .reveal strong { color: var(--ink); font-weight: 700; }
+  .reveal .accent { color: var(--blue); font-weight: 600; }
+
+  .section-head {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 22px;
+  }
+  .section-head h2 { max-width: 28ch; }
+
+  /* ============================================================
+     SLIDE 1 - System Context
+     ============================================================ */
+  .sys-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.25fr 1fr;
+    gap: 22px;
+    flex: 1;
+    align-items: stretch;
+    min-height: 0;
+  }
+  .sys-col {
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 0;
+  }
+  .sys-col .vlabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* Client card (left col) */
+  .client-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: 5px;
+    position: relative;
+  }
+  .client-card .ctitle { font-weight: 700; color: var(--ink); font-size: 15px; }
+  .client-card .csub { color: var(--slate); font-size: 13px; line-height: 1.4; }
+  .client-card .cproto {
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--blue);
+    text-transform: uppercase;
+  }
+
+  /* Runtime card (middle col) - the framework */
+  .runtime-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--blue);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 16px 20px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .runtime-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(60% 50% at 100% 0%, rgba(37,99,235,.06), transparent 70%);
+    pointer-events: none;
+  }
+  .runtime-card .rtitle {
+    font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em;
+  }
+  .runtime-card .rsub { color: var(--slate); font-size: 13px; line-height: 1.45; }
+  .layers {
+    display: grid; gap: 4px;
+    margin-top: 0;
+  }
+  .layer {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 6px 11px;
+    display: grid; grid-template-columns: 28px 1fr;
+    gap: 12px; align-items: center;
+  }
+  .layer .lnum {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1.5px solid var(--blue);
+    color: var(--blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .layer .lname {
+    font-size: 12.5px; color: var(--ink); font-weight: 600;
+  }
+  .layer .lname span {
+    color: var(--slate); font-weight: 400; font-size: 11.5px; margin-left: 6px;
+  }
+  .runtime-foot {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 4px; padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  .chip.blue { background: rgba(37,99,235,.08); border-color: rgba(37,99,235,.2); color: var(--blue); }
+
+  /* AWS service stack (right col) */
+  .aws-stack { display: flex; flex-direction: column; gap: 5px; }
+  .aws-service {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 7px 10px;
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+  }
+  .aws-service .ic {
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #FF9900 0%, #FFC265 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    box-shadow: 0 4px 10px -4px rgba(255,153,0,.4);
+  }
+  .aws-service .ic svg { width: 14px; height: 14px; }
+  .aws-service .ic.dark {
+    background: linear-gradient(135deg, #232F3E 0%, #3B4A60 100%);
+    box-shadow: 0 4px 10px -4px rgba(35,47,62,.4);
+  }
+  .aws-service .svc-name {
+    font-size: 12px; color: var(--ink); font-weight: 700; line-height: 1.2;
+  }
+  .aws-service .svc-detail {
+    font-size: 10.5px; color: var(--slate); margin-top: 1px; line-height: 1.3;
+  }
+  .aws-service .cost-pill {
+    position: absolute;
+    top: 6px; right: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: rgba(37,99,235,.08);
+    border: 1px solid rgba(37,99,235,.18);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  /* Bottom data sources strip */
+  .data-strip {
+    display: flex; gap: 7px; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .data-strip .vlabel { width: 100%; margin-bottom: 0; }
+  .ds-chip {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 6px 11px;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .ds-chip .ds-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--gradient);
+  }
+
+  /* By the numbers (bottom strip slide 1) */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .stat {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: 1px;
+    position: relative;
+  }
+  .stat .sv {
+    font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+    font-family: 'Inter', sans-serif;
+  }
+  .stat .sv .unit { color: var(--blue); font-weight: 700; }
+  .stat .sl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ============================================================
+     SLIDE 2 - Bedrock model routing
+     ============================================================ */
+  .route-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 56px;
+    flex: 1;
+    align-items: start;
+  }
+
+  /* Left checks list */
+  ul.checks {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  ul.checks li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  ul.checks .tick {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 3px;
+    box-shadow: 0 4px 10px -2px rgba(37,99,235,.4);
+  }
+  ul.checks .tick svg { width: 11px; height: 11px; }
+  ul.checks h4 { font-size: 17px; color: var(--ink); margin-bottom: 2px; font-weight: 700; }
+  ul.checks p { font-size: 14px; line-height: 1.5; color: var(--slate); }
+
+  /* Right pipeline visual */
+  .pipeline {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 22px 22px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pipeline::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(70% 50% at 100% 0%, rgba(37,99,235,.07), transparent 70%);
+    pointer-events: none;
+  }
+  .pipeline .vlabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .pipeline .vlabel .live {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--blue);
+  }
+  .pipeline .vlabel .live .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+    animation: at-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes at-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.55; transform: scale(0.85); }
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 26px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--line);
+    position: relative;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-step .fnum {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .flow-step .fname { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .flow-step .fname .fsub {
+    color: var(--slate); font-weight: 400; font-size: 12px; margin-left: 6px;
+  }
+  .flow-step .chips { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+
+  .model-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .model-chip.lite {
+    background: rgba(96,165,250,.18);
+    color: var(--blue-ink);
+    border: 1px solid rgba(96,165,250,.4);
+  }
+  .model-chip.pro {
+    background: var(--blue);
+    color: white;
+    border: 1px solid var(--blue);
+  }
+  .model-chip.det {
+    background: var(--surface-2);
+    color: var(--slate);
+    border: 1px solid var(--line-2);
+  }
+  .model-chip.embed {
+    background: rgba(13,148,136,.12);
+    color: #0D9488;
+    border: 1px solid rgba(13,148,136,.35);
+  }
+
+  .pipeline-legend {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: flex; gap: 14px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-items: center;
+  }
+  .pipeline-legend .lg-item { display: flex; align-items: center; gap: 6px; }
+  .pipeline-legend .swatch {
+    width: 14px; height: 8px; border-radius: 3px;
+  }
+  .pipeline-legend .swatch.lite { background: rgba(96,165,250,.5); }
+  .pipeline-legend .swatch.pro { background: var(--blue); }
+  .pipeline-legend .swatch.det { background: var(--line-2); }
+  .pipeline-legend .swatch.embed { background: #0D9488; }
+
+  /* ============================================================
+     SLIDE 3 - Reference solution: NL2SQL
+     ============================================================ */
+  .solution-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 44px;
+    flex: 1;
+    align-items: start;
+  }
+
+  /* Q&A mock card */
+  .qa-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+  }
+  .qa-card .qa-head {
+    background: var(--ink);
+    color: white;
+    padding: 12px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.75);
+  }
+  .qa-card .qa-head .live {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--blue-2);
+  }
+  .qa-card .qa-head .live .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #10B981;
+    animation: at-pulse 1.6s ease-in-out infinite;
+  }
+  .qa-card .qa-body { padding: 16px 20px 18px; }
+  .qa-q {
+    display: grid; grid-template-columns: 26px 1fr; gap: 12px;
+    align-items: start;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--line);
+    margin-bottom: 14px;
+  }
+  .qa-q .bubble-user {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qa-q .bubble-user svg { width: 12px; height: 12px; }
+  .qa-q .qtxt { color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.4; }
+  .qa-q .qmeta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .qa-a {
+    display: grid; grid-template-columns: 26px 1fr; gap: 12px;
+    align-items: start;
+  }
+  .qa-a .bubble-ai {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--gradient);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px -2px rgba(37,99,235,.4);
+  }
+  .qa-a .bubble-ai svg { width: 12px; height: 12px; }
+  .qa-headline {
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .qa-headline strong { color: var(--ink); font-weight: 700; }
+
+  .qa-chart {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px 11px;
+    margin-bottom: 10px;
+  }
+  .qa-chart .chart-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .line-chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .line-chart .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; }
+  .line-chart .axis { stroke: var(--line-2); stroke-width: 1; }
+  .line-chart .axis-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    fill: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .line-chart .series { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .line-chart .series.platform { stroke: #2563EB; }
+  .line-chart .series.insights { stroke: #0D9488; }
+  .line-chart .series.datacloud { stroke: #F59E0B; }
+  .line-chart .series.mobile { stroke: #94A3B8; stroke-dasharray: 4 3; }
+  .line-chart .area.platform { fill: rgba(37,99,235,.08); stroke: none; }
+  .line-chart .dot { stroke: white; stroke-width: 1.5; }
+  .line-chart .dot.platform { fill: #2563EB; }
+  .line-chart .dot.insights { fill: #0D9488; }
+  .line-chart .dot.datacloud { fill: #F59E0B; }
+  .line-chart .dot.mobile { fill: #94A3B8; }
+  .line-chart .endcap { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; }
+  .line-chart .endcap.platform { fill: #2563EB; }
+  .line-chart .endcap.insights { fill: #0D9488; }
+  .line-chart .endcap.datacloud { fill: #F59E0B; }
+  .line-chart .endcap.mobile { fill: #64748B; }
+
+  .chart-legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: var(--slate);
+  }
+  .chart-legend .leg { display: inline-flex; align-items: center; gap: 5px; }
+  .chart-legend .leg .lswatch {
+    width: 12px; height: 2px; border-radius: 1px;
+  }
+  .chart-legend .leg.platform .lswatch { background: #2563EB; }
+  .chart-legend .leg.insights .lswatch { background: #0D9488; }
+  .chart-legend .leg.datacloud .lswatch { background: #F59E0B; }
+  .chart-legend .leg.mobile .lswatch {
+    background: repeating-linear-gradient(90deg, #94A3B8 0 3px, transparent 3px 6px);
+  }
+
+  .qa-insights {
+    list-style: none; padding: 0;
+    margin: 0 0 12px;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .qa-insights li {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 9px;
+    align-items: start;
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.45;
+  }
+  .qa-insights li .idot {
+    width: 6px; height: 6px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  .qa-insights li strong { color: var(--ink); font-weight: 600; }
+
+  .qa-followups .fu-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+  .fu-chips {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .fu-chip {
+    background: var(--white);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    font-size: 11px;
+    padding: 5px 10px 5px 8px;
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 5px;
+    line-height: 1.2;
+  }
+  .fu-chip::before {
+    content: '+';
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* Solution stats */
+  .sol-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .sol-stat {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .sol-stat .sv {
+    font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+  }
+  .sol-stat .sv .unit { color: var(--blue); font-weight: 700; font-size: 14px; }
+  .sol-stat .sl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Right: NL2SQL phase list - reuse pipeline + flow-step components */
+</style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================================
+         SLIDE 1 - System Context
+         ============================================================ -->
+    <section data-transition="fade">
+      <div class="slide">
+        <div class="corner-mark"><span class="dot"></span>FRAMEWORK · 01 / 03</div>
+
+        <div class="section-head">
+          <div class="eyebrow">Accelyze AI · Architecture at a Glance</div>
+          <h2><span class="accent">Accelyze AI</span>: a production framework for multi-agent AI on AWS Bedrock</h2>
+          <p class="lead">Pluggable agents, typed workflow, cost-aware orchestration, end-to-end observability. Stateless containers on ECS Fargate. Foundation models from Bedrock. Traces and metrics through OpenTelemetry to CloudWatch. Engagement teams write business logic; the framework handles the rest.</p>
+        </div>
+
+        <div class="sys-grid">
+
+          <!-- LEFT: Clients -->
+          <div class="sys-col">
+            <div class="vlabel">Clients</div>
+            <div class="client-card">
+              <div class="ctitle">API Client</div>
+              <div class="csub">Application or analyst tool issuing natural-language questions.</div>
+              <div class="cproto">POST /api/query</div>
+            </div>
+            <div class="client-card">
+              <div class="ctitle">SSE Consumer</div>
+              <div class="csub">Streams per-phase events as the workflow progresses end-to-end.</div>
+              <div class="cproto">Server-Sent Events</div>
+            </div>
+          </div>
+
+          <!-- MIDDLE: Accelyze runtime -->
+          <div class="sys-col">
+            <div class="vlabel">Accelyze Runtime</div>
+            <div class="runtime-card">
+              <div>
+                <div class="rtitle">Accelyze AI · framework core</div>
+                <div class="rsub">27-module workspace, 6 layers, strict downward-only dependencies. Typed workflow state machine with reference-counted shared state.</div>
+              </div>
+              <div class="layers">
+                <div class="layer"><div class="lnum">6</div><div class="lname">Binaries <span>public-api · workers</span></div></div>
+                <div class="layer"><div class="lnum">5</div><div class="lname">REST + SSE streaming <span>AG-UI protocol</span></div></div>
+                <div class="layer"><div class="lnum">4</div><div class="lname">Workflow engine <span>typed phase state machine</span></div></div>
+                <div class="layer"><div class="lnum">3</div><div class="lname">Agents <span>pluggable Agent interface + builders</span></div></div>
+                <div class="layer"><div class="lnum">2</div><div class="lname">Domain <span>per-engagement business logic</span></div></div>
+                <div class="layer"><div class="lnum">1</div><div class="lname">Core <span>llm · database · observability · config</span></div></div>
+              </div>
+              <div class="runtime-foot">
+                <span class="chip blue">Stateless container</span>
+                <span class="chip">Async runtime</span>
+                <span class="chip">OTLP</span>
+                <span class="chip">Reflexion + ReAct</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: AWS managed services -->
+          <div class="sys-col">
+            <div class="vlabel">AWS Managed Services</div>
+            <div class="aws-stack">
+              <div class="aws-service">
+                <div class="ic" aria-label="Bedrock">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84L20 8l-4 3.9.94 5.5L12 14.77 7.06 17.4 8 11.9 4 8l5.61-1.16L12 2z"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Amazon Bedrock</div>
+                  <div class="svc-detail">Fast, reasoning, and embedding models (1024-dim)</div>
+                </div>
+                <span class="cost-pill">$$$ Cost</span>
+              </div>
+              <div class="aws-service">
+                <div class="ic" aria-label="ECS / Fargate">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 7 22 17 12 22 2 17 2 7 12 2"/><polyline points="2 7 12 12 22 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Amazon ECS, AWS Fargate</div>
+                  <div class="svc-detail">Stateless task fleet, vCPU/memory auto-scaling</div>
+                </div>
+                <span class="cost-pill">$$ Cost</span>
+              </div>
+              <div class="aws-service">
+                <div class="ic" aria-label="RDS / Aurora">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Amazon RDS, Aurora PostgreSQL</div>
+                  <div class="svc-detail">pgvector cache, audit log, semantic memory</div>
+                </div>
+                <span class="cost-pill">$$ Cost</span>
+              </div>
+              <div class="aws-service">
+                <div class="ic dark" aria-label="VPC / NAT">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Amazon VPC, NAT Gateway</div>
+                  <div class="svc-detail">Private subnets, controlled egress to Bedrock</div>
+                </div>
+                <span class="cost-pill">$$ Cost</span>
+              </div>
+              <div class="aws-service">
+                <div class="ic dark" aria-label="ALB">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Application Load Balancer</div>
+                  <div class="svc-detail">TLS termination, SSE-friendly, WAF integration</div>
+                </div>
+              </div>
+              <div class="aws-service">
+                <div class="ic dark" aria-label="CloudWatch">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">Amazon CloudWatch</div>
+                  <div class="svc-detail">OTLP traces, metrics, logs, alarms</div>
+                </div>
+              </div>
+              <div class="aws-service">
+                <div class="ic dark" aria-label="Secrets Manager / ECR">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div>
+                  <div class="svc-name">AWS Secrets Manager, ECR</div>
+                  <div class="svc-detail">Credentials rotation, container image registry</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="data-strip">
+              <div class="vlabel">Target Data Sources (multi-dialect)</div>
+              <div class="ds-chip"><span class="ds-dot"></span>PostgreSQL</div>
+              <div class="ds-chip"><span class="ds-dot"></span>SQLite</div>
+              <div class="ds-chip"><span class="ds-dot"></span>SQL Server</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="stats-row">
+          <div class="stat"><div class="sv">27<span class="unit"> modules</span></div><div class="sl">Modular workspace</div></div>
+          <div class="stat"><div class="sv">6<span class="unit"> layers</span></div><div class="sl">strict dependency direction</div></div>
+          <div class="stat"><div class="sv">3<span class="unit"> dialects</span></div><div class="sl">PostgreSQL · SQLite · SQL Server</div></div>
+          <div class="stat"><div class="sv">~177K<span class="unit"> LoC</span></div><div class="sl">production code</div></div>
+        </div>
+
+        <div class="footer">
+          <div class="brand"><div class="brand-mark"></div><span>Accelyze AI</span></div>
+          <div>01 / 03</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2 - Bedrock Model Routing
+         ============================================================ -->
+    <section data-transition="fade">
+      <div class="slide">
+        <div class="corner-mark"><span class="dot"></span>FRAMEWORK · 02 / 03</div>
+
+        <div class="section-head">
+          <div class="eyebrow">Accelyze AI · Capabilities · Cost + Reliability</div>
+          <h2>Cost-aware orchestration, built into the framework</h2>
+          <p class="lead">Every agent that Accelyze AI runs is wrapped with model routing, semantic caching, circuit breaking, and tracing, so engagement teams write business logic, not infrastructure. The result: predictable Bedrock spend, sub-10s end-to-end latency, and graceful degradation under provider stress.</p>
+        </div>
+
+        <div class="route-grid">
+
+          <!-- LEFT: framework capabilities -->
+          <ul class="checks">
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>Cost-aware model routing</h4>
+                <p>Each agent declares a model profile (Fast, Reasoning, Embedding, or Deterministic). The framework selects the cheapest option that meets the agent's quality bar.</p>
+              </div>
+            </li>
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>Semantic cache with cost-aware eviction</h4>
+                <p>Blake3-keyed cache backed by pgvector; eviction weighted by recency (40%), frequency (40%) and call cost (20%), so expensive responses live longer.</p>
+              </div>
+            </li>
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>Parallel fan-out across agent groups</h4>
+                <p>Workflow phases declare parallel agent groups; the engine fans out, awaits all results, and merges. No manual concurrency code in agent implementations.</p>
+              </div>
+            </li>
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>Circuit breakers + exponential backoff</h4>
+                <p>Per-dependency breakers around Bedrock and downstream DBs; graceful degradation when a provider throttles or stalls.</p>
+              </div>
+            </li>
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>Typed phase state machine</h4>
+                <p>The typed workflow state machine enforces correctness at compile time; shared in-memory state cut data-copying overhead between phases by ~99%.</p>
+              </div>
+            </li>
+            <li>
+              <div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L5 9.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div>
+                <h4>SSE streaming + OTLP traces</h4>
+                <p>Per-phase events stream to clients via AG-UI protocol; every agent call emits structured spans with tokens, latency and cost to CloudWatch.</p>
+              </div>
+            </li>
+          </ul>
+
+          <!-- RIGHT: agent invocation lifecycle -->
+          <div class="pipeline">
+            <div class="vlabel">
+              <span>Agent Invocation · what the framework wraps</span>
+              <span class="live"><span class="dot"></span>Per Call</span>
+            </div>
+
+            <div class="flow-step">
+              <div class="fnum">1</div>
+              <div class="fname">Workflow phase dispatch <span class="fsub">· typed state</span></div>
+              <div class="chips"><span class="model-chip det">Engine</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">2</div>
+              <div class="fname">Semantic cache lookup <span class="fsub">· Blake3 key</span></div>
+              <div class="chips"><span class="model-chip embed">pgvector</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">3</div>
+              <div class="fname">Model router <span class="fsub">· per agent profile</span></div>
+              <div class="chips"><span class="model-chip lite">Fast</span><span class="model-chip pro">Reasoning</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">4</div>
+              <div class="fname">Bedrock invocation <span class="fsub">· retry + circuit breaker</span></div>
+              <div class="chips"><span class="model-chip pro">Bedrock</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">5</div>
+              <div class="fname">Cache write <span class="fsub">· cost + token metadata</span></div>
+              <div class="chips"><span class="model-chip embed">pgvector</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">6</div>
+              <div class="fname">OTLP span emit <span class="fsub">· tokens · latency · cost</span></div>
+              <div class="chips"><span class="model-chip det">CloudWatch</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">7</div>
+              <div class="fname">SSE event to client <span class="fsub">· AG-UI protocol</span></div>
+              <div class="chips"><span class="model-chip det">Stream</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">8</div>
+              <div class="fname">Return → next phase <span class="fsub">· shared state advance</span></div>
+              <div class="chips"><span class="model-chip det">Engine</span></div>
+            </div>
+
+            <div class="pipeline-legend">
+              <span class="lg-item"><span class="swatch lite"></span>Fast · cheap classification</span>
+              <span class="lg-item"><span class="swatch pro"></span>Reasoning · heavy work</span>
+              <span class="lg-item"><span class="swatch embed"></span>Embedding · retrieval</span>
+              <span class="lg-item"><span class="swatch det"></span>Framework · no LLM</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer">
+          <div class="brand"><div class="brand-mark"></div><span>Accelyze AI</span></div>
+          <div>02 / 03</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 3 - Reference Solution: NL2SQL
+         ============================================================ -->
+    <section data-transition="fade">
+      <div class="slide">
+        <div class="corner-mark"><span class="dot"></span>SOLUTION · 03 / 03</div>
+
+        <div class="section-head">
+          <div class="eyebrow">Reference Solution · Natural-Language to SQL</div>
+          <h2>Plain-English analytics, built on Accelyze AI</h2>
+          <p class="lead">A production NL2SQL solution built entirely on the Accelyze AI framework. 14 agents organised into 7 workflow groups turn natural-language questions into validated, executed SQL against PostgreSQL, SQLite, or SQL Server, end-to-end in under 10 seconds.</p>
+        </div>
+
+        <div class="solution-grid">
+
+          <!-- LEFT: Q&A example + solution KPIs -->
+          <div>
+            <div class="qa-card">
+              <div class="qa-head">
+                <span>POST /api/query</span>
+                <span class="live"><span class="dot"></span>SSE · 8 phases</span>
+              </div>
+              <div class="qa-body">
+                <div class="qa-q">
+                  <div class="bubble-user">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                  <div>
+                    <div class="qtxt">"How has monthly recurring revenue evolved across our top product lines over the past six months, and which segments are accelerating or stalling against forecast?"</div>
+                  </div>
+                </div>
+                <div class="qa-a">
+                  <div class="bubble-ai">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  </div>
+                  <div>
+                    <div class="qa-headline"><strong>Platform accelerated to $4.2M MRR</strong> (+18% MoM, 2.3pts above forecast). Insights stalled; Mobile contracted for the first time in 9 months.</div>
+
+                    <div class="qa-chart">
+                      <div class="chart-title"><span>MRR trend by product line · last 6 months</span><span>$ millions</span></div>
+                      <svg class="line-chart" viewBox="0 0 480 130" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Multi-line chart of MRR by product line">
+                        <!-- gridlines -->
+                        <line class="grid" x1="36" y1="14" x2="442" y2="14"/>
+                        <line class="grid" x1="36" y1="42" x2="442" y2="42"/>
+                        <line class="grid" x1="36" y1="70" x2="442" y2="70"/>
+                        <line class="grid" x1="36" y1="98" x2="442" y2="98"/>
+                        <!-- y-axis tick labels -->
+                        <text class="axis-label" x="30" y="17" text-anchor="end">5M</text>
+                        <text class="axis-label" x="30" y="45" text-anchor="end">3M</text>
+                        <text class="axis-label" x="30" y="73" text-anchor="end">1M</text>
+                        <text class="axis-label" x="30" y="101" text-anchor="end">0</text>
+                        <!-- x-axis baseline -->
+                        <line class="axis" x1="36" y1="98" x2="442" y2="98"/>
+                        <!-- x-axis month labels -->
+                        <text class="axis-label" x="56"  y="115" text-anchor="middle">Nov</text>
+                        <text class="axis-label" x="132" y="115" text-anchor="middle">Dec</text>
+                        <text class="axis-label" x="208" y="115" text-anchor="middle">Jan</text>
+                        <text class="axis-label" x="284" y="115" text-anchor="middle">Feb</text>
+                        <text class="axis-label" x="360" y="115" text-anchor="middle">Mar</text>
+                        <text class="axis-label" x="420" y="115" text-anchor="middle">Apr</text>
+
+                        <!-- Platform area + line (primary) -->
+                        <path class="area platform" d="M56,64 L132,59 L208,53 L284,45 L360,36 L420,25 L420,98 L56,98 Z"/>
+                        <polyline class="series platform" points="56,64 132,59 208,53 284,45 360,36 420,25"/>
+                        <circle class="dot platform" cx="56"  cy="64" r="2.5"/>
+                        <circle class="dot platform" cx="132" cy="59" r="2.5"/>
+                        <circle class="dot platform" cx="208" cy="53" r="2.5"/>
+                        <circle class="dot platform" cx="284" cy="45" r="2.5"/>
+                        <circle class="dot platform" cx="360" cy="36" r="2.5"/>
+                        <circle class="dot platform" cx="420" cy="25" r="3.5"/>
+                        <text class="endcap platform" x="428" y="27">4.2M</text>
+
+                        <!-- Insights line (stalling) -->
+                        <polyline class="series insights" points="56,55 132,49 208,44 284,41 360,39 420,39"/>
+                        <circle class="dot insights" cx="56"  cy="55" r="2.5"/>
+                        <circle class="dot insights" cx="132" cy="49" r="2.5"/>
+                        <circle class="dot insights" cx="208" cy="44" r="2.5"/>
+                        <circle class="dot insights" cx="284" cy="41" r="2.5"/>
+                        <circle class="dot insights" cx="360" cy="39" r="2.5"/>
+                        <circle class="dot insights" cx="420" cy="39" r="3.5"/>
+                        <text class="endcap insights" x="428" y="41">3.0M</text>
+
+                        <!-- Data Cloud line (fastest growth, small base) -->
+                        <polyline class="series datacloud" points="56,91 132,86 208,80 284,72 360,63 420,54"/>
+                        <circle class="dot datacloud" cx="56"  cy="91" r="2.5"/>
+                        <circle class="dot datacloud" cx="132" cy="86" r="2.5"/>
+                        <circle class="dot datacloud" cx="208" cy="80" r="2.5"/>
+                        <circle class="dot datacloud" cx="284" cy="72" r="2.5"/>
+                        <circle class="dot datacloud" cx="360" cy="63" r="2.5"/>
+                        <circle class="dot datacloud" cx="420" cy="54" r="3.5"/>
+                        <text class="endcap datacloud" x="428" y="56">1.9M</text>
+
+                        <!-- Mobile line (declining, dashed) -->
+                        <polyline class="series mobile" points="56,66 132,63 208,61 284,63 360,66 420,70"/>
+                        <circle class="dot mobile" cx="56"  cy="66" r="2.5"/>
+                        <circle class="dot mobile" cx="132" cy="63" r="2.5"/>
+                        <circle class="dot mobile" cx="208" cy="61" r="2.5"/>
+                        <circle class="dot mobile" cx="284" cy="63" r="2.5"/>
+                        <circle class="dot mobile" cx="360" cy="66" r="2.5"/>
+                        <circle class="dot mobile" cx="420" cy="70" r="3.5"/>
+                        <text class="endcap mobile" x="428" y="72">1.1M</text>
+                      </svg>
+                      <div class="chart-legend">
+                        <span class="leg platform"><span class="lswatch"></span>Platform</span>
+                        <span class="leg insights"><span class="lswatch"></span>Insights</span>
+                        <span class="leg datacloud"><span class="lswatch"></span>Data Cloud</span>
+                        <span class="leg mobile"><span class="lswatch"></span>Mobile (forecast)</span>
+                      </div>
+                    </div>
+
+                    <ul class="qa-insights">
+                      <li><span class="idot"></span><div><strong>Platform is the standout</strong>: +18% MoM compounding, now $0.9M ahead of forecast on enterprise expansion.</div></li>
+                      <li><span class="idot"></span><div><strong>Insights stalled at $3.0M</strong>, breaking a 4-month growth streak. Concentrated in mid-market segment.</div></li>
+                      <li><span class="idot"></span><div>Data Cloud is fastest-growing in % terms (+34% over period) but still 55% below Platform in absolute MRR.</div></li>
+                    </ul>
+
+                    <div class="qa-followups">
+                      <div class="fu-label">Suggested follow-ups</div>
+                      <div class="fu-chips">
+                        <span class="fu-chip">Drill into Insights stall by account</span>
+                        <span class="fu-chip">Project Data Cloud to FY27</span>
+                        <span class="fu-chip">Compare Platform actual vs forecast by region</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: NL2SQL agent pipeline -->
+          <div class="pipeline">
+            <div class="vlabel">
+              <span>NL2SQL Workflow · 14 agents · 7 groups</span>
+              <span class="live"><span class="dot"></span>SSE Stream</span>
+            </div>
+
+            <div class="flow-step">
+              <div class="fnum">1</div>
+              <div class="fname">Guardrails <span class="fsub">· intent · safety · domain · parallel</span></div>
+              <div class="chips"><span class="model-chip lite">Fast</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">2</div>
+              <div class="fname">Question Refinement</div>
+              <div class="chips"><span class="model-chip lite">Fast</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">3</div>
+              <div class="fname">Execution Planning <span class="fsub">· strategy · Reflexion budget</span></div>
+              <div class="chips"><span class="model-chip lite">Fast</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">4</div>
+              <div class="fname">Retrieval <span class="fsub">· RAG + hints · parallel</span></div>
+              <div class="chips"><span class="model-chip embed">Embedding</span><span class="model-chip det">Deterministic</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">5</div>
+              <div class="fname">SQL Generation <span class="fsub">· TableFilter → SqlGenerator → ToT</span></div>
+              <div class="chips"><span class="model-chip lite">Fast</span><span class="model-chip pro">Reasoning</span><span class="model-chip pro">Reasoning</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">6</div>
+              <div class="fname">Reflexion Validation <span class="fsub">· iterative repair · ≤ 2 loops</span></div>
+              <div class="chips"><span class="model-chip pro">Reasoning</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">7</div>
+              <div class="fname">SQL Execution <span class="fsub">· user + aggregation in parallel</span></div>
+              <div class="chips"><span class="model-chip det">Deterministic</span></div>
+            </div>
+            <div class="flow-step">
+              <div class="fnum">8</div>
+              <div class="fname">Analysis <span class="fsub">· results · followup · column-pick · parallel</span></div>
+              <div class="chips"><span class="model-chip pro">Reasoning</span></div>
+            </div>
+
+            <div class="pipeline-legend">
+              <span class="lg-item"><span class="swatch lite"></span>Fast · cheap classification</span>
+              <span class="lg-item"><span class="swatch pro"></span>Reasoning · SQL + analysis</span>
+              <span class="lg-item"><span class="swatch embed"></span>Embedding · retrieval</span>
+              <span class="lg-item"><span class="swatch det"></span>Deterministic · no LLM</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer">
+          <div class="brand"><div class="brand-mark"></div><span>Accelyze AI</span></div>
+          <div>03 / 03</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1440,
+    height: 900,
+    margin: 0.04,
+    minScale: 0.2,
+    maxScale: 2.0,
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    center: false,
+    navigationMode: 'linear'
+  });
+</script>
+</body>
+</html>
